@@ -9,6 +9,7 @@ import { ConfirmDialog } from '../components/ui/ConfirmDialog';
 import { PageLoader } from '../components/ui/Loader';
 import { useLanguage } from '../context/LanguageContext';
 import { useToast } from '../context/AlertContext';
+import { formatDate } from '../utils/date';
 import { FiUser, FiBriefcase, FiArrowLeft, FiChevronRight } from 'react-icons/fi';
 
 const statusBadge = (status: string, t: (key: string) => string) => {
@@ -27,7 +28,7 @@ const ClientDetailPage = () => {
   const navigate = useNavigate();
   const [client, setClient] = useState<Client | null>(null);
   const [showDelete, setShowDelete] = useState(false);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { addToast } = useToast();
 
   const loadClient = () => {
@@ -83,7 +84,7 @@ const ClientDetailPage = () => {
 
       {/* Contact & Summary */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
-        <Card title={t('clientDetail.contactInfo')}>
+        <Card title={t('clientDetail.contactInfo')} accent="purple">
           <div className="space-y-2 text-sm">
             {client.email && (
               <div className="flex justify-between">
@@ -109,7 +110,7 @@ const ClientDetailPage = () => {
           </div>
         </Card>
 
-        <Card title={t('clientDetail.summary')}>
+        <Card title={t('clientDetail.summary')} accent="cyan">
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-text-muted">{t('clientDetail.creditsCount').split('{count}')[0]}</span>
@@ -126,7 +127,7 @@ const ClientDetailPage = () => {
       </div>
 
       {/* Credits list */}
-      <Card title={t('clientDetail.credits')}>
+      <Card title={t('clientDetail.credits')} accent="orange">
         {visibleCredits.length === 0 ? (
           <p className="text-text-muted text-sm">{t('clientDetail.noCredits')}</p>
         ) : (
@@ -146,7 +147,7 @@ const ClientDetailPage = () => {
                       {credit.currency} {Number(credit.amount).toLocaleString()}
                     </p>
                     <p className="text-xs text-text-muted">
-                      {t('clientDetail.due').replace('{date}', new Date(credit.dueDate).toLocaleDateString())}
+                      {t('clientDetail.due').replace('{date}', formatDate(credit.dueDate, language))}
                     </p>
                   </div>
                 </div>

@@ -53,6 +53,12 @@ const translations: Record<string, Record<Language, string>> = {
   'dashboard.newCredit': { en: '+ New Credit', es: '+ Nuevo Crédito' },
   'dashboard.newClient': { en: '+ New Client', es: '+ Nuevo Cliente' },
   'dashboard.loading': { en: 'Loading...', es: 'Cargando...' },
+  'dashboard.lastWeek': { en: '1 Week', es: '1 Semana' },
+  'dashboard.lastMonth': { en: '1 Month', es: '1 Mes' },
+  'dashboard.last3Months': { en: '3 Months', es: '3 Meses' },
+  'dashboard.last6Months': { en: '6 Months', es: '6 Meses' },
+  'dashboard.lastYear': { en: '1 Year', es: '1 Año' },
+  'dashboard.all': { en: 'All', es: 'Todo' },
   // Clients
   'clients.title': { en: 'Clients', es: 'Clientes' },
   'clients.newClient': { en: '+ New Client', es: '+ Nuevo Cliente' },

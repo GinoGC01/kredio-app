@@ -102,7 +102,7 @@ const LoginPage = () => {
       <div className="bg-bg-card p-8 rounded-xl border border-border w-full max-w-md">
         <div className="flex items-center justify-center gap-1 mb-2">
           <img src="/images/logo-kredio.webp" alt="Kredio" className="w-10 h-10" />
-          <h1 className="text-3xl font-extrabold text-[#056ffe]" style={{ fontFamily: 'Manrope, sans-serif' }}>Kredio</h1>
+          <h1 className="text-3xl font-extrabold text-accent-purple" style={{ fontFamily: 'Manrope, sans-serif' }}>Kredio</h1>
         </div>
         <p className="text-text-muted text-center mb-6">{t('login.subtitle')}</p>
 

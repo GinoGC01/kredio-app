@@ -4,6 +4,7 @@ import { ActivityLog } from '../types';
 import { Card } from '../components/ui/Card';
 import { PageLoader } from '../components/ui/Loader';
 import { useLanguage } from '../context/LanguageContext';
+import { formatDateShort } from '../utils/date';
 import {
   FiDollarSign, FiBriefcase, FiUserPlus, FiClock,
 } from 'react-icons/fi';
@@ -101,13 +102,13 @@ function relativeTime(date: Date): string {
   if (hours < 24) return `hace ${hours}h`;
   const days = Math.floor(hours / 24);
   if (days < 7) return `hace ${days}d`;
-  return date.toLocaleDateString();
+  return date.toLocaleDateString('es-AR');
 }
 
 const ActivityPage = () => {
   const [activities, setActivities] = useState<ActivityLog[]>([]);
   const [loading, setLoading] = useState(true);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     activityService.list().then((res) => setActivities(res.data)).finally(() => setLoading(false));
@@ -131,11 +132,11 @@ const ActivityPage = () => {
       <h1 className="text-xl font-bold text-text-primary">{t('activity.title')}</h1>
 
       {!hasActivity ? (
-        <Card hover={false}>
+        <Card accent="pink">
           <p className="text-text-muted text-center py-8">{t('activity.noActivity')}</p>
         </Card>
       ) : (
-        <Card hover={false}>
+        <Card accent="cyan">
           {groupKeys.map((groupKey) => {
             const items = grouped[groupKey];
             if (items.length === 0) return null;
@@ -164,7 +165,7 @@ const ActivityPage = () => {
                             {getActionDescription(log, t)}
                           </p>
                           <p className="text-xs text-text-muted mt-0.5">
-                            {date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: date.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined })} · {relativeTime(date)}
+                            {formatDateShort(log.createdAt, language)} · {relativeTime(date)}
                           </p>
                         </div>
                       </div>

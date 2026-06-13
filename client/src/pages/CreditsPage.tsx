@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { creditService } from '../services/credit.service';
-import { Credit } from '../types';
+import { Credit, Period } from '../types';
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
+import { DateSegmentFilter } from '../components/ui/DateSegmentFilter';
 import { PageLoader } from '../components/ui/Loader';
 import { useLanguage } from '../context/LanguageContext';
+import { formatDate } from '../utils/date';
 import { FiDollarSign, FiChevronRight } from 'react-icons/fi';
 
 const statusBadge = (status: string, t: (key: string) => string) => {
@@ -21,28 +23,43 @@ const statusBadge = (status: string, t: (key: string) => string) => {
 const CreditsPage = () => {
   const [credits, setCredits] = useState<Credit[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+
+  const period = (searchParams.get('period') as Period) || 'all';
+
+  const fetchCredits = useCallback(() => {
+    const filter = period === 'all' ? undefined : { period };
+    creditService.list(filter).then((res) => setCredits(res.data.filter((c) => c.status !== 'ARCHIVED'))).finally(() => setLoading(false));
+  }, [period]);
 
   useEffect(() => {
-    creditService.list().then((res) => setCredits(res.data.filter((c) => c.status !== 'ARCHIVED'))).finally(() => setLoading(false));
-  }, []);
+    fetchCredits();
+  }, [fetchCredits]);
+
+  const handlePeriodChange = (newPeriod: Period) => {
+    setSearchParams(newPeriod === 'all' ? {} : { period: newPeriod });
+  };
 
   if (loading) return <PageLoader />;
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <h1 className="text-xl font-bold text-text-primary">{t('credits.title')}</h1>
-        <Link
-          to="/credits/new"
-          className="px-4 py-2 bg-accent-purple text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
-        >
-          {t('credits.newCredit')}
-        </Link>
+        <div className="flex items-center gap-3">
+          <DateSegmentFilter value={period} onChange={handlePeriodChange} />
+          <Link
+            to="/credits/new"
+            className="px-4 py-2 bg-accent-orange text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
+          >
+            {t('credits.newCredit')}
+          </Link>
+        </div>
       </div>
 
-      <Card hover={false}>
+      <Card accent="orange">
         {credits.length === 0 ? (
           <p className="text-text-muted text-center py-8">{t('credits.noCredits')}</p>
         ) : (
@@ -62,7 +79,7 @@ const CreditsPage = () => {
                       {credit.client?.name ?? t('credits.unknown')}
                     </p>
                     <p className="text-xs text-text-muted">
-                      {t('credits.due').replace('{date}', new Date(credit.dueDate).toLocaleDateString())}
+                      {t('credits.due').replace('{date}', formatDate(credit.dueDate, language))}
                     </p>
                   </div>
                 </div>

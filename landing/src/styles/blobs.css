@@ -1,0 +1,86 @@
+.blob-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  filter: blur(80px);
+  opacity: 0.85;
+  will-change: transform, border-radius;
+}
+
+.blob--primary {
+  width: 60vw;
+  height: 50vw;
+  max-width: 800px;
+  max-height: 700px;
+  background: var(--blob-grad-1);
+  top: -10%;
+  right: -5%;
+  animation: blob-drift-1 25s ease-in-out infinite alternate;
+}
+
+.blob--secondary {
+  width: 50vw;
+  height: 45vw;
+  max-width: 700px;
+  max-height: 600px;
+  background: var(--blob-grad-2);
+  bottom: -15%;
+  left: -10%;
+  animation: blob-drift-2 28s ease-in-out infinite alternate;
+  animation-delay: -5s;
+}
+
+.blob--accent {
+  width: 35vw;
+  height: 35vw;
+  max-width: 500px;
+  max-height: 500px;
+  background: var(--blob-grad-3);
+  top: 30%;
+  left: 20%;
+  animation: blob-drift-3 20s ease-in-out infinite alternate;
+  animation-delay: -10s;
+}
+
+.blob--small {
+  width: 25vw;
+  height: 25vw;
+  max-width: 300px;
+  max-height: 300px;
+  background: var(--blob-grad-1);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: blob-drift-1 22s ease-in-out infinite alternate;
+  opacity: 0.6;
+}
+
+@keyframes blob-drift-1 {
+  0%   { transform: translate(0, 0) scale(1) rotate(0deg); }
+  33%  { transform: translate(-40px, 30px) scale(1.05) rotate(8deg); }
+  66%  { transform: translate(20px, -50px) scale(0.95) rotate(-5deg); }
+  100% { transform: translate(-20px, 40px) scale(1.08) rotate(12deg); }
+}
+
+@keyframes blob-drift-2 {
+  0%   { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50%  { transform: translate(50px, -30px) scale(1.06) rotate(-10deg); }
+  100% { transform: translate(-30px, 20px) scale(0.94) rotate(6deg); }
+}
+
+@keyframes blob-drift-3 {
+  0%   { transform: translate(0, 0) scale(1); opacity: 0.6; }
+  50%  { transform: translate(-60px, 40px) scale(1.1); opacity: 0.8; }
+  100% { transform: translate(40px, -30px) scale(0.9); opacity: 0.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob { animation: none; }
+}

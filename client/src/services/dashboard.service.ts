@@ -1,6 +1,7 @@
 import api from './api';
-import { Dashboard } from '../types';
+import { Dashboard, DateFilter } from '../types';
 
 export const dashboardService = {
-  get: () => api.get<Dashboard>('/dashboard'),
+  get: (filter?: DateFilter) =>
+    api.get<Dashboard>('/dashboard', { params: filter }),
 };

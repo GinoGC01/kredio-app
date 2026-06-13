@@ -12,6 +12,7 @@ import { ConfirmDialog } from '../components/ui/ConfirmDialog';
 import { PageLoader } from '../components/ui/Loader';
 import { useLanguage } from '../context/LanguageContext';
 import { useToast } from '../context/AlertContext';
+import { formatDate } from '../utils/date';
 import { FiArrowLeft, FiCalendar } from 'react-icons/fi';
 
 const statusBadge = (status: string, t: (key: string) => string) => {
@@ -28,7 +29,7 @@ const statusBadge = (status: string, t: (key: string) => string) => {
 const CreditDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { addToast } = useToast();
   const [credit, setCredit] = useState<Credit | null>(null);
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -110,19 +111,19 @@ const CreditDetailPage = () => {
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
-        <div className="card-base p-4">
+        <div className="card p-4">
           <p className="text-xs text-text-muted uppercase tracking-wider">{t('creditDetail.total')}</p>
           <p className="text-xl font-bold text-text-primary mt-1">{credit.currency} {Number(credit.totalAmount).toLocaleString()}</p>
         </div>
-        <div className="card-base p-4">
+        <div className="card p-4">
           <p className="text-xs text-text-muted uppercase tracking-wider">{t('creditDetail.balance')}</p>
           <p className="text-xl font-bold text-accent-purple mt-1">{credit.currency} {Number(credit.balance).toLocaleString()}</p>
         </div>
-        <div className="card-base p-4">
+        <div className="card p-4">
           <p className="text-xs text-text-muted uppercase tracking-wider">{t('creditDetail.interestRate')}</p>
           <p className="text-xl font-bold text-text-primary mt-1">{credit.interestRate}%</p>
         </div>
-        <div className="card-base p-4">
+        <div className="card p-4">
           <p className="text-xs text-text-muted uppercase tracking-wider">{t('creditDetail.status')}</p>
           <div className="mt-1.5">{statusBadge(credit.status, t)}</div>
         </div>
@@ -136,7 +137,7 @@ const CreditDetailPage = () => {
         )}
       </div>
 
-      <Card hover={false}>
+      <Card accent="indigo">
         {payments.length === 0 ? (
           <p className="text-text-muted text-sm">{t('creditDetail.noPayments')}</p>
         ) : (
@@ -152,7 +153,7 @@ const CreditDetailPage = () => {
                       {credit.currency} {Number(payment.amount).toLocaleString()}
                     </p>
                     <p className="text-xs text-text-muted">
-                      {new Date(payment.date).toLocaleDateString()}
+                      {formatDate(payment.date, language)}
                       {payment.note && ` - ${payment.note}`}
                     </p>
                   </div>
@@ -166,6 +167,24 @@ const CreditDetailPage = () => {
       {/* Payment Modal */}
       <Modal isOpen={showPaymentModal} onClose={() => setShowPaymentModal(false)} title={t('creditDetail.registerPayment')}>
         <div className="space-y-4">
+          <div className="bg-bg-card rounded-lg p-4 space-y-2 text-sm border border-border-subtle">
+            <div className="flex justify-between">
+              <span className="text-text-muted">Monto original</span>
+              <span className="font-medium">{credit.currency} {Number(credit.totalAmount).toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-text-muted">Saldo pendiente</span>
+              <span className="font-semibold text-accent-purple">{credit.currency} {Number(credit.balance).toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-text-muted">Cuotas</span>
+              <span className="font-medium">{credit.installments} cuotas</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-text-muted">Valor por cuota</span>
+              <span className="font-medium">{credit.currency} {(Number(credit.totalAmount) / credit.installments).toLocaleString()}</span>
+            </div>
+          </div>
           <Input
             label={t('creditDetail.amount')}
             type="number"

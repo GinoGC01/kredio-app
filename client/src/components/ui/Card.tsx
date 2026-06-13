@@ -4,12 +4,12 @@ interface CardProps {
   title?: string;
   children: React.ReactNode;
   className?: string;
-  hover?: boolean;
+  accent?: string;
 }
 
-export const Card = ({ title, children, className = '', hover = true }: CardProps) => {
+export const Card = ({ title, children, className = '' }: CardProps) => {
   return (
-    <div className={`card-base ${hover ? '' : ''} ${className}`}>
+    <div className={`card ${className}`}>
       {title && (
         <div className="card-header">
           <h3 className="card-title">{title}</h3>

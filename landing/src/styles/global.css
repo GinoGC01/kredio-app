@@ -1,0 +1,86 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --c-bg: #000000;
+  --c-bg-elevated: #0a0a0a;
+  --c-bg-subtle: #111111;
+
+  --c-text-primary: #ffffff;
+  --c-text-secondary: rgba(255, 255, 255, 0.7);
+  --c-text-muted: rgba(255, 255, 255, 0.4);
+  --c-text-accent: #ff8e53;
+
+  --c-accent: #ff8e53;
+  --c-accent-hover: #ffa87d;
+  --c-accent-dim: rgba(255, 142, 83, 0.12);
+  --c-accent-glow: rgba(255, 142, 83, 0.4);
+
+  --c-border: rgba(255, 255, 255, 0.08);
+  --c-border-hover: rgba(255, 255, 255, 0.15);
+
+  --blob-grad-1: radial-gradient(ellipse at 50% 50%, #ff5e00 0%, #ff8e53 30%, #7b2cbf 70%, transparent 100%);
+  --blob-grad-2: radial-gradient(ellipse at 50% 50%, #3a0ca3 0%, #4361ee 50%, transparent 100%);
+  --blob-grad-3: radial-gradient(ellipse at 50% 50%, #ff6a2f 0%, #f72585 50%, transparent 100%);
+
+  --text-display: clamp(64px, 10vw, 150px);
+  --text-h1: clamp(40px, 6vw, 72px);
+  --text-h2: clamp(28px, 4vw, 48px);
+  --text-h3: clamp(18px, 2.5vw, 24px);
+  --text-body: clamp(14px, 1.5vw, 16px);
+  --text-sm: 12px;
+  --text-stat: clamp(28px, 4vw, 42px);
+
+  --section-gap: clamp(100px, 15vw, 200px);
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--c-border);
+  border-radius: 24px;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background: var(--c-bg);
+  color: var(--c-text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: var(--text-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Syne', sans-serif;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+section {
+  padding-block: var(--section-gap);
+  position: relative;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 5%;
+  width: 100%;
+}

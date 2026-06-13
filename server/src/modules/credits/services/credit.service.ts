@@ -4,8 +4,17 @@ import { NotFoundError } from '../../../shared/errors/AppError.js';
 import { clientModel } from '../../clients/models/client.model.js';
 import { activityService } from '../../activity/services/activity.service.js';
 import { CreditStatus } from '@prisma/client';
+import { DateRangeFilter, calculateDateRange } from '../../../shared/types/date-filter.js';
 
 export const creditService = {
+  updateOverdueStatuses: async (userId: string) => {
+    const overdue = await creditModel.findOverdue(userId);
+    for (const credit of overdue) {
+      await creditModel.updateStatus(credit.id, CreditStatus.OVERDUE);
+    }
+    return overdue.length;
+  },
+
   create: async (data: CreateCreditDto, userId: string) => {
     const client = await clientModel.findById(data.clientId, userId);
     if (!client) {
@@ -52,6 +61,7 @@ export const creditService = {
   },
 
   getById: async (id: string, userId: string) => {
+    await creditService.updateOverdueStatuses(userId);
     const credit = await creditModel.findById(id, userId);
     if (!credit) {
       throw new NotFoundError('Credit not found');
@@ -60,6 +70,7 @@ export const creditService = {
   },
 
   listByClient: async (clientId: string, userId: string) => {
+    await creditService.updateOverdueStatuses(userId);
     const client = await clientModel.findById(clientId, userId);
     if (!client) {
       throw new NotFoundError('Client not found');
@@ -67,7 +78,9 @@ export const creditService = {
     return creditModel.findManyByClient(clientId, userId);
   },
 
-  list: async (userId: string) => {
-    return creditModel.findMany(userId);
+  list: async (userId: string, filter?: DateRangeFilter) => {
+    await creditService.updateOverdueStatuses(userId);
+    const { fromDate, toDate } = calculateDateRange(filter ?? {});
+    return creditModel.findMany(userId, fromDate, toDate);
   },
 };

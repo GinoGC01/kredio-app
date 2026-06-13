@@ -21,6 +21,11 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     root.setAttribute('data-theme', theme);
     root.classList.toggle('dark', theme === 'dark');
     localStorage.setItem('kredio-theme', theme);
+
+    // Trigger smooth transition animation
+    root.classList.add('theme-transition');
+    const timer = setTimeout(() => root.classList.remove('theme-transition'), 400);
+    return () => clearTimeout(timer);
   }, [theme]);
 
   const toggleTheme = () => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));

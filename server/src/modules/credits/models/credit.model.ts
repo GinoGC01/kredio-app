@@ -37,9 +37,15 @@ export const creditModel = {
     });
   },
 
-  findMany: (userId: string) => {
+  findMany: (userId: string, dateFrom?: Date, dateTo?: Date) => {
     return prisma.credit.findMany({
-      where: { userId },
+      where: {
+        userId,
+        dueDate: {
+          ...(dateFrom ? { gte: dateFrom } : {}),
+          ...(dateTo ? { lte: dateTo } : {}),
+        },
+      },
       include: {
         client: { select: { id: true, name: true } },
       },

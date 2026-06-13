@@ -7,6 +7,8 @@ import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { ConfirmDialog } from '../components/ui/ConfirmDialog';
 
+const navColor = '#4361ee';
+
 const navItems = [
   { path: '/', label: 'nav.dashboard', icon: FiBarChart2, group: 'General' },
   { path: '/clients', label: 'nav.clients', icon: FiUsers, group: 'Management' },
@@ -68,7 +70,14 @@ export const MainLayout = () => {
   }, {});
 
   return (
-    <div className="min-h-screen bg-bg-base flex">
+    <div className="min-h-screen bg-bg-base flex relative overflow-hidden">
+      {/* Blobs - behind everything */}
+      <div className="blob-scene" aria-hidden="true">
+        <div className="blob blob-1"></div>
+        <div className="blob blob-2"></div>
+        <div className="blob blob-3"></div>
+      </div>
+
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
@@ -80,8 +89,8 @@ export const MainLayout = () => {
       {/* Sidebar */}
       <aside
         className={`
-          fixed lg:static inset-y-0 left-0 z-50
-          bg-bg-sidebar border-r border-border
+          fixed lg:relative inset-y-0 left-0 z-50 lg:z-10
+          sidebar
           flex flex-col h-screen overflow-y-auto
           transition-transform duration-200 ease-out
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
@@ -93,7 +102,7 @@ export const MainLayout = () => {
         <div className={`flex items-center gap-1 px-4 pt-5 pb-6 ${isTablet ? 'justify-center px-0' : ''}`}>
           <img src="/images/logo-kredio.webp" alt="Kredio" className="w-8 h-8 shrink-0" />
           {!isTablet && (
-            <h1 className="text-3xl font-extrabold text-[#056ffe]" style={{ fontFamily: 'Manrope, sans-serif' }}>Kredio</h1>
+            <h1 className="text-3xl font-extrabold text-[#046ffe]" style={{ fontFamily: 'Manrope, sans-serif' }}>Kredio</h1>
           )}
         </div>
 
@@ -115,12 +124,13 @@ export const MainLayout = () => {
                       to={path}
                       className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 ${
                         active
-                          ? 'bg-accent-purple text-white shadow-sm'
+                          ? 'text-white shadow-sm'
                           : 'text-text-secondary hover:text-text-primary hover:bg-bg-card-hover'
                       } ${isTablet ? 'justify-center px-0' : ''}`}
+                      style={active ? { backgroundColor: navColor } : undefined}
                       title={isTablet ? t(label) : undefined}
                     >
-                      <Icon className="w-5 h-5 shrink-0" />
+                      <Icon className={`w-5 h-5 shrink-0 ${active ? '' : 'text-text-muted'}`} />
                       {!isTablet && <span>{t(label)}</span>}
                     </Link>
                   );
@@ -160,9 +170,9 @@ export const MainLayout = () => {
       </aside>
 
       {/* Main area */}
-      <div className="flex-1 flex flex-col min-h-screen min-w-0">
+      <div className="flex-1 flex flex-col h-screen min-w-0 overflow-y-scroll relative z-10">
         {/* Topbar */}
-        <header className="h-14 lg:h-16 bg-bg-sidebar border-b border-border flex items-center justify-between px-4 lg:px-6 shrink-0">
+        <header className="h-14 lg:h-16 topbar flex items-center justify-between px-4 lg:px-6 shrink-0">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -201,8 +211,10 @@ export const MainLayout = () => {
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-4 lg:p-6 overflow-auto">
-          <Outlet />
+        <main className="flex-1 overflow-auto">
+          <div className="p-4 lg:p-6">
+            <Outlet />
+          </div>
         </main>
       </div>
 

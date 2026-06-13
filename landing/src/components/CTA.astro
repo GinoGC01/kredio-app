@@ -1,0 +1,96 @@
+<section class="cta" id="cta">
+  <div class="blob-scene" aria-hidden="true">
+    <div class="blob blob--small"></div>
+  </div>
+
+  <div class="cta__content">
+    <h2 class="cta__title" data-reveal>
+      Empezá a gestionar<br>
+      tu <span class="cta__accent">crédito</span> hoy
+    </h2>
+    <p class="cta__sub" data-reveal data-delay="100">
+      Sin contratos ni compromisos. Probá gratis por 14 días.
+    </p>
+    <div class="cta__actions" data-reveal data-delay="200">
+      <input class="cta__input" type="email" placeholder="tu@email.com" />
+      <button class="btn btn--primary btn--large">Crear cuenta gratis</button>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .cta {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .cta__content {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 5%;
+  }
+
+  .cta__title {
+    font-family: 'Syne', sans-serif;
+    font-size: var(--text-h1);
+    font-weight: 700;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--c-text-primary);
+    margin-bottom: 16px;
+  }
+
+  .cta__accent {
+    background: linear-gradient(135deg, var(--c-accent), var(--c-violet-bright));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .cta__sub {
+    font-size: var(--text-body);
+    color: var(--c-text-secondary);
+    margin-bottom: 40px;
+  }
+
+  .cta__actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cta__input {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--c-border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    color: var(--c-text-primary);
+    font-size: 14px;
+    width: 260px;
+    transition: border-color 150ms ease;
+  }
+
+  .cta__input:focus {
+    outline: none;
+    border-color: var(--c-accent);
+  }
+
+  .cta__input::placeholder { color: var(--c-text-muted); }
+
+  .btn--large {
+    padding: 14px 28px;
+    font-size: 15px;
+  }
+
+  @media (max-width: 767px) {
+    .cta__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .cta__input { width: 100%; }
+  }
+</style>

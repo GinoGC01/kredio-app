@@ -18,9 +18,15 @@ export const paymentModel = {
     });
   },
 
-  findMany: (userId: string) => {
+  findMany: (userId: string, dateFrom?: Date, dateTo?: Date) => {
     return prisma.payment.findMany({
-      where: { userId },
+      where: {
+        userId,
+        date: {
+          ...(dateFrom ? { gte: dateFrom } : {}),
+          ...(dateTo ? { lte: dateTo } : {}),
+        },
+      },
       include: {
         credit: {
           select: {

@@ -1,0 +1,111 @@
+<section class="benefits" id="features">
+  <div class="container">
+    <h2 class="benefits__title" data-reveal>Nuestros Beneficios</h2>
+
+    <div class="benefits-grid">
+      <div class="benefit-card glass-panel" data-reveal data-delay="100">
+        <h3 class="benefit-card__title">Detección Proactiva<br>y Respuesta</h3>
+        <p class="benefit-card__body">Centralizá toda la información de tus clientes en un solo lugar. Monitoreo continuo para identificar patrones anómalos.</p>
+      </div>
+
+      <div class="benefit-card benefit-card--visual glass-panel" data-reveal data-delay="200">
+        <div class="blob-scene" aria-hidden="true">
+          <div class="blob blob--small" style="opacity:0.8; filter: blur(40px);"></div>
+        </div>
+        <div class="visual-text">
+          <h3 class="benefit-card__title">Conocimiento<br>Experto</h3>
+        </div>
+      </div>
+
+      <div class="benefit-card glass-panel" data-reveal data-delay="300">
+        <h3 class="benefit-card__title">Detección Proactiva<br>y Respuesta</h3>
+        <p class="benefit-card__body">Monitoreo constante de transacciones y cuotas para salvaguardar contra accesos no autorizados e incumplimientos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .benefits {
+    position: relative;
+    z-index: 2;
+  }
+
+  .benefits__title {
+    font-family: 'Syne', sans-serif;
+    font-size: var(--text-h2);
+    font-weight: 700;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--c-text-primary);
+    margin-bottom: 60px;
+    text-align: center;
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .benefit-card {
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 300ms ease, box-shadow 300ms ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 380px;
+  }
+
+  .benefit-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  }
+
+  .benefit-card--visual {
+    justify-content: flex-end;
+    text-align: center;
+  }
+
+  .benefit-card--visual .blob-scene {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .visual-text {
+    position: relative;
+    z-index: 1;
+  }
+
+  .benefit-card__title {
+    position: relative;
+    z-index: 1;
+    font-family: 'Inter', sans-serif;
+    font-size: var(--text-h3);
+    font-weight: 600;
+    color: var(--c-text-primary);
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+
+  .benefit-card__body {
+    position: relative;
+    z-index: 1;
+    font-size: 13px;
+    color: var(--c-text-secondary);
+    line-height: 1.6;
+    margin-top: auto;
+  }
+
+  @media (max-width: 1023px) {
+    .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 767px) {
+    .benefits-grid { grid-template-columns: 1fr; }
+    .benefit-card { min-height: auto; }
+  }
+</style>

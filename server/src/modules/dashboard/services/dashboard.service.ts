@@ -1,17 +1,21 @@
 import { dashboardModel } from '../models/dashboard.model.js';
-import { DashboardResponse } from '../types/dashboard.types.js';
+import { DashboardResponse, DateRangeFilter } from '../types/dashboard.types.js';
+import { calculateDateRange } from '../../../shared/types/date-filter.js';
+import { creditService } from '../../credits/services/credit.service.js';
 
 export const dashboardService = {
-  getDashboard: async (userId: string): Promise<DashboardResponse> => {
-    const credits = await dashboardModel.getCreditStats(userId);
-    const recentPayments = await dashboardModel.getRecentPayments(userId);
-    const upcomingDue = await dashboardModel.getUpcomingDueDates(userId);
-    const paymentsWithCurrency = await dashboardModel.getPaymentsWithCurrency(userId);
+  getDashboard: async (userId: string, filter?: DateRangeFilter): Promise<DashboardResponse> => {
+    await creditService.updateOverdueStatuses(userId);
+
+    const { fromDate, toDate } = calculateDateRange(filter ?? {});
+
+    const credits = await dashboardModel.getCreditStats(userId, fromDate, toDate);
+    const recentPayments = await dashboardModel.getRecentPayments(userId, 5, fromDate, toDate);
+    const upcomingDue = await dashboardModel.getUpcomingDueDates(userId, 5, fromDate, toDate);
+    const paymentsWithCurrency = await dashboardModel.getPaymentsWithCurrency(userId, fromDate, toDate);
 
     const activeCredits = credits.filter((c) => c.status === 'ACTIVE').length;
-    const overdueCredits = credits.filter(
-      (c) => c.status === 'ACTIVE' && new Date(c.dueDate) < new Date(),
-    ).length;
+    const overdueCredits = credits.filter((c) => c.status === 'OVERDUE').length;
 
     const totalPortfolio = credits.reduce((sum, c) => sum + Number(c.totalAmount), 0);
     const totalPortfolioArs = credits

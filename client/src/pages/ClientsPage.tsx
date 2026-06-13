@@ -31,7 +31,7 @@ const ClientsPage = () => {
         </Link>
       </div>
 
-      <Card hover={false}>
+      <Card accent="purple">
         {clients.length === 0 ? (
           <p className="text-text-muted text-center py-8">{t('clients.noClients')}</p>
         ) : (

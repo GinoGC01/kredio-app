@@ -2,6 +2,7 @@ import { Response, NextFunction } from 'express';
 import { creditService } from '../services/credit.service.js';
 import { createCreditSchema } from '../validators/credit.validator.js';
 import { AuthenticatedRequest } from '../../../shared/middlewares/auth.middleware.js';
+import { DateRangeFilter } from '../../../shared/types/date-filter.js';
 
 export const creditController = {
   create: async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
@@ -36,7 +37,12 @@ export const creditController = {
 
   list: async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const credits = await creditService.list(req.userId!);
+      const filter: DateRangeFilter = {};
+      if (req.query.period) filter.period = req.query.period as DateRangeFilter['period'];
+      if (req.query.from) filter.from = req.query.from as string;
+      if (req.query.to) filter.to = req.query.to as string;
+
+      const credits = await creditService.list(req.userId!, filter);
       res.json(credits);
     } catch (error) {
       next(error);

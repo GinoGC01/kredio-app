@@ -1,9 +1,15 @@
 import { prisma } from '../../../config/database.js';
 
 export const dashboardModel = {
-  getCreditStats: (userId: string) => {
+  getCreditStats: (userId: string, dateFrom?: Date, dateTo?: Date) => {
     return prisma.credit.findMany({
-      where: { userId },
+      where: {
+        userId,
+        dueDate: {
+          ...(dateFrom ? { gte: dateFrom } : {}),
+          ...(dateTo ? { lte: dateTo } : {}),
+        },
+      },
       select: {
         id: true,
         amount: true,
@@ -17,9 +23,15 @@ export const dashboardModel = {
     });
   },
 
-  getRecentPayments: (userId: string, limit = 5) => {
+  getRecentPayments: (userId: string, limit = 5, dateFrom?: Date, dateTo?: Date) => {
     return prisma.payment.findMany({
-      where: { userId },
+      where: {
+        userId,
+        date: {
+          ...(dateFrom ? { gte: dateFrom } : {}),
+          ...(dateTo ? { lte: dateTo } : {}),
+        },
+      },
       include: {
         credit: {
           select: {
@@ -33,12 +45,15 @@ export const dashboardModel = {
     });
   },
 
-  getUpcomingDueDates: (userId: string, limit = 5) => {
+  getUpcomingDueDates: (userId: string, limit = 5, dateFrom?: Date, dateTo?: Date) => {
     return prisma.credit.findMany({
       where: {
         userId,
         status: 'ACTIVE',
-        dueDate: { gte: new Date() },
+        dueDate: {
+          gte: dateFrom ?? new Date(),
+          ...(dateTo ? { lte: dateTo } : {}),
+        },
       },
       select: {
         id: true,
@@ -53,9 +68,15 @@ export const dashboardModel = {
     });
   },
 
-  getPaymentsWithCurrency: (userId: string) => {
+  getPaymentsWithCurrency: (userId: string, dateFrom?: Date, dateTo?: Date) => {
     return prisma.payment.findMany({
-      where: { userId },
+      where: {
+        userId,
+        date: {
+          ...(dateFrom ? { gte: dateFrom } : {}),
+          ...(dateTo ? { lte: dateTo } : {}),
+        },
+      },
       include: {
         credit: {
           select: { currency: true },

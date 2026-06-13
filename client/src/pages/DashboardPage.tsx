@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { dashboardService } from '../services/dashboard.service';
-import { Dashboard } from '../types';
+import { Dashboard, Period } from '../types';
 import { Card } from '../components/ui/Card';
+import { DateSegmentFilter } from '../components/ui/DateSegmentFilter';
 import { PageLoader } from '../components/ui/Loader';
 import { useLanguage } from '../context/LanguageContext';
+import { formatDate } from '../utils/date';
 import { FiBriefcase, FiAlertTriangle, FiPieChart, FiClock, FiDollarSign } from 'react-icons/fi';
 
 const statIcons: Record<string, { icon: React.ReactNode; bg: string }> = {
@@ -16,31 +18,46 @@ const statIcons: Record<string, { icon: React.ReactNode; bg: string }> = {
 
 const DashboardPage = () => {
   const [data, setData] = useState<Dashboard | null>(null);
-  const { t } = useLanguage();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { t, language } = useLanguage();
+
+  const period = (searchParams.get('period') as Period) || 'all';
+
+  const fetchDashboard = useCallback(() => {
+    const filter = period === 'all' ? undefined : { period };
+    dashboardService.get(filter).then((res) => setData(res.data));
+  }, [period]);
 
   useEffect(() => {
-    dashboardService.get().then((res) => setData(res.data));
-  }, []);
+    fetchDashboard();
+  }, [fetchDashboard]);
+
+  const handlePeriodChange = (newPeriod: Period) => {
+    setSearchParams(newPeriod === 'all' ? {} : { period: newPeriod });
+  };
 
   if (!data) return <PageLoader />;
 
   const stats = [
-    { key: 'activeCredits', label: t('dashboard.activeCredits'), value: data.activeCredits, prefix: '' },
-    { key: 'overdueCredits', label: t('dashboard.overdue'), value: data.overdueCredits, prefix: '' },
-    { key: 'totalPortfolio', label: t('dashboard.totalPortfolio'), value: `ARS ${data.totalPortfolioArs.toLocaleString()}`, prefix: '' },
-    { key: 'pendingAmount', label: t('dashboard.pending'), value: `ARS ${data.pendingAmountArs.toLocaleString()}`, prefix: '' },
+    { key: 'activeCredits', label: t('dashboard.activeCredits'), value: data.activeCredits, prefix: '', tint: false },
+    { key: 'overdueCredits', label: t('dashboard.overdue'), value: data.overdueCredits, prefix: '', tint: false },
+    { key: 'totalPortfolio', label: t('dashboard.totalPortfolio'), value: `ARS ${data.totalPortfolioArs.toLocaleString()}`, prefix: '', tint: true },
+    { key: 'pendingAmount', label: t('dashboard.pending'), value: `ARS ${data.pendingAmountArs.toLocaleString()}`, prefix: '', tint: true },
   ];
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-bold text-text-primary">{t('dashboard.title')}</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <h1 className="text-xl font-bold text-text-primary">{t('dashboard.title')}</h1>
+        <DateSegmentFilter value={period} onChange={handlePeriodChange} />
+      </div>
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
         {stats.map((stat) => {
           const iconConfig = statIcons[stat.key];
           return (
-            <div key={stat.key} className="card-base hover:border-accent-purple p-4 lg:p-5">
+            <div key={stat.key} className={`card${stat.tint ? ' card--accent' : ''} p-4 lg:p-5`}>
               <div className="flex items-center justify-between mb-3">
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${iconConfig.bg}`}>
                   {iconConfig.icon}
@@ -55,7 +72,7 @@ const DashboardPage = () => {
 
       {/* Portfolio split by currency */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
-        <Card title="Portafolio en ARS">
+        <Card title="Portafolio en ARS" accent="purple">
           <div className="space-y-3">
             <div className="flex justify-between items-center py-2">
               <span className="text-sm text-text-muted">Total Cartera</span>
@@ -71,7 +88,7 @@ const DashboardPage = () => {
             </div>
           </div>
         </Card>
-        <Card title="Portafolio en USD">
+        <Card title="Portafolio en USD" accent="cyan">
           <div className="space-y-3">
             <div className="flex justify-between items-center py-2">
               <span className="text-sm text-text-muted">Total Cartera</span>
@@ -91,7 +108,7 @@ const DashboardPage = () => {
 
       {/* Recent payments & Upcoming due */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
-        <Card title={t('dashboard.recentPayments')}>
+        <Card title={t('dashboard.recentPayments')} accent="teal">
           {data.recentPayments.length === 0 ? (
             <p className="text-text-muted text-sm">{t('dashboard.noRecentPayments')}</p>
           ) : (
@@ -104,7 +121,7 @@ const DashboardPage = () => {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-text-primary">{p.clientName}</p>
-                      <p className="text-xs text-text-muted">{new Date(p.date).toLocaleDateString()}</p>
+                      <p className="text-xs text-text-muted">{formatDate(p.date, language)}</p>
                     </div>
                   </div>
                   <span className="text-sm font-semibold text-success">{p.currency} {p.amount.toLocaleString()}</span>
@@ -114,7 +131,7 @@ const DashboardPage = () => {
           )}
         </Card>
 
-        <Card title={t('dashboard.upcomingDue')}>
+        <Card title={t('dashboard.upcomingDue')} accent="pink">
           {data.upcomingDueDates.length === 0 ? (
             <p className="text-text-muted text-sm">{t('dashboard.noUpcomingDue')}</p>
           ) : (
@@ -127,7 +144,7 @@ const DashboardPage = () => {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-text-primary">{c.clientName}</p>
-                      <p className="text-xs text-text-muted">{t('dashboard.due').replace('{date}', new Date(c.dueDate).toLocaleDateString())}</p>
+                      <p className="text-xs text-text-muted">{t('dashboard.due').replace('{date}', formatDate(c.dueDate, language))}</p>
                     </div>
                   </div>
                   <span className="text-sm font-semibold text-accent-indigo">{c.currency} {c.balance.toLocaleString()}</span>
@@ -142,13 +159,13 @@ const DashboardPage = () => {
       <div className="flex gap-3">
         <Link
           to="/credits/new"
-          className="px-4 py-2.5 bg-accent-purple text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
+          className="px-4 py-2.5 bg-accent-cyan text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
         >
           {t('dashboard.newCredit')}
         </Link>
         <Link
           to="/clients/new"
-          className="px-4 py-2.5 bg-bg-input text-text-primary border border-border rounded-lg text-sm font-medium hover:border-accent-purple transition-colors"
+          className="px-4 py-2.5 bg-bg-input text-text-primary border border-border rounded-lg text-sm font-medium hover:border-accent-pink transition-colors"
         >
           {t('dashboard.newClient')}
         </Link>

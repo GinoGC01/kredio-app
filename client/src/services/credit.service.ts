@@ -1,8 +1,9 @@
 import api from './api';
-import { Credit } from '../types';
+import { Credit, DateFilter } from '../types';
 
 export const creditService = {
-  list: () => api.get<Credit[]>('/credits'),
+  list: (filter?: DateFilter) =>
+    api.get<Credit[]>('/credits', { params: filter }),
   getById: (id: string) => api.get<Credit>(`/credits/${id}`),
   listByClient: (clientId: string) => api.get<Credit[]>(`/credits/client/${clientId}`),
   create: (data: {

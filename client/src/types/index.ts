@@ -83,6 +83,14 @@ export interface Dashboard {
   }>;
 }
 
+export type Period = 'last_week' | 'last_month' | 'last_3_months' | 'last_6_months' | 'last_year' | 'all';
+
+export interface DateFilter {
+  period?: Period;
+  from?: string;
+  to?: string;
+}
+
 export interface ActivityLog {
   id: string;
   action: string;

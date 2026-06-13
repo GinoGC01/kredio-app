@@ -1,3 +1,7 @@
+import { DateRangeFilter } from '../../../shared/types/date-filter.js';
+
+export type { DateRangeFilter };
+
 export interface DashboardResponse {
   activeCredits: number;
   overdueCredits: number;

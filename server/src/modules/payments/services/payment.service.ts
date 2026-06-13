@@ -4,6 +4,7 @@ import { RegisterPaymentDto } from '../types/payment.types.js';
 import { NotFoundError } from '../../../shared/errors/AppError.js';
 import { activityService } from '../../activity/services/activity.service.js';
 import { CreditStatus } from '@prisma/client';
+import { DateRangeFilter, calculateDateRange } from '../../../shared/types/date-filter.js';
 
 export const paymentService = {
   register: async (data: RegisterPaymentDto, userId: string) => {
@@ -58,7 +59,8 @@ export const paymentService = {
     return paymentModel.findByCredit(creditId);
   },
 
-  list: async (userId: string) => {
-    return paymentModel.findMany(userId);
+  list: async (userId: string, filter?: DateRangeFilter) => {
+    const { fromDate, toDate } = calculateDateRange(filter ?? {});
+    return paymentModel.findMany(userId, fromDate, toDate);
   },
 };

@@ -2,6 +2,7 @@ import { Response, NextFunction } from 'express';
 import { paymentService } from '../services/payment.service.js';
 import { registerPaymentSchema } from '../validators/payment.validator.js';
 import { AuthenticatedRequest } from '../../../shared/middlewares/auth.middleware.js';
+import { DateRangeFilter } from '../../../shared/types/date-filter.js';
 
 export const paymentController = {
   register: async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
@@ -26,7 +27,12 @@ export const paymentController = {
 
   list: async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const payments = await paymentService.list(req.userId!);
+      const filter: DateRangeFilter = {};
+      if (req.query.period) filter.period = req.query.period as DateRangeFilter['period'];
+      if (req.query.from) filter.from = req.query.from as string;
+      if (req.query.to) filter.to = req.query.to as string;
+
+      const payments = await paymentService.list(req.userId!, filter);
       res.json(payments);
     } catch (error) {
       next(error);

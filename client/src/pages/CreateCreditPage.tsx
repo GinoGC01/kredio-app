@@ -60,7 +60,7 @@ const CreateCreditPage = () => {
   return (
     <div className="max-w-lg mx-auto space-y-6">
       <h1 className="text-xl font-bold text-text-primary">{t('createCredit.title')}</h1>
-      <Card hover={false}>
+      <Card accent="orange">
         {error && <div className="bg-stat-red-bg text-danger p-3 rounded-lg text-sm mb-4">{error}</div>}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

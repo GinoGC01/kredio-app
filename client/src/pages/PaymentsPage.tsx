@@ -1,26 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { paymentService } from '../services/payment.service';
-import { Payment } from '../types';
+import { Payment, Period } from '../types';
 import { Card } from '../components/ui/Card';
+import { DateSegmentFilter } from '../components/ui/DateSegmentFilter';
 import { PageLoader } from '../components/ui/Loader';
 import { useLanguage } from '../context/LanguageContext';
+import { formatDate } from '../utils/date';
 import { FiDollarSign } from 'react-icons/fi';
 
 const PaymentsPage = () => {
   const [payments, setPayments] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
-  const { t } = useLanguage();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { t, language } = useLanguage();
+
+  const period = (searchParams.get('period') as Period) || 'all';
+
+  const fetchPayments = useCallback(() => {
+    const filter = period === 'all' ? undefined : { period };
+    paymentService.list(filter).then((res) => setPayments(res.data)).finally(() => setLoading(false));
+  }, [period]);
 
   useEffect(() => {
-    paymentService.list().then((res) => setPayments(res.data)).finally(() => setLoading(false));
-  }, []);
+    fetchPayments();
+  }, [fetchPayments]);
+
+  const handlePeriodChange = (newPeriod: Period) => {
+    setSearchParams(newPeriod === 'all' ? {} : { period: newPeriod });
+  };
 
   if (loading) return <PageLoader />;
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-bold text-text-primary">{t('payments.title')}</h1>
-      <Card hover={false}>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <h1 className="text-xl font-bold text-text-primary">{t('payments.title')}</h1>
+        <DateSegmentFilter value={period} onChange={handlePeriodChange} />
+      </div>
+      <Card accent="pink">
         {payments.length === 0 ? (
           <p className="text-text-muted text-center py-8">{t('payments.noPayments')}</p>
         ) : (
@@ -36,7 +54,7 @@ const PaymentsPage = () => {
                       {payment.credit?.client?.name ?? t('payments.unknown')}
                     </p>
                     <p className="text-xs text-text-muted">
-                      {new Date(payment.date).toLocaleDateString()}
+                      {formatDate(payment.date, language)}
                       {payment.note && ` - ${payment.note}`}
                     </p>
                   </div>

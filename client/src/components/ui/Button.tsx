@@ -10,7 +10,7 @@ export const Button = ({ variant = 'primary', children, className = '', ...props
 
   const variants = {
     primary: 'bg-accent-purple text-white hover:opacity-90',
-    secondary: 'bg-bg-input text-text-primary border border-border hover:border-accent-purple',
+    secondary: 'bg-bg-input text-text-primary border border-border hover:border-accent-pink',
     danger: 'bg-danger text-white hover:opacity-90',
     ghost: 'text-text-secondary hover:text-text-primary hover:bg-bg-card-hover',
     outline: 'border border-accent-purple text-accent-purple hover:bg-accent-purple-dim',

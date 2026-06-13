@@ -7,3 +7,4 @@ export { Input } from './Input';
 export { Loader, PageLoader } from './Loader';
 export { Modal } from './Modal';
 export { Table } from './Table';
+export { DateSegmentFilter } from './DateSegmentFilter';
