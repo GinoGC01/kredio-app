@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
+  lastActivityAt DateTime? @map("last_activity_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  clients      Client[]
+  credits      Credit[]
+  payments     Payment[]
+  activityLogs ActivityLog[]
+
+  @@map("users")
+}
+
+model Client {
+  id        String   @id @default(uuid())
+  name      String
+  phone     String?
+  email     String?
+  notes     String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  userId    String   @map("user_id")
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  credits  Credit[]
+
+  @@map("clients")
+}
+
+enum CreditStatus {
+  ACTIVE
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum Currency {
+  ARS
+  USD
+}
+
+enum PaymentFrequency {
+  WEEKLY
+  BIWEEKLY
+  MONTHLY
+}
+
+model Credit {
+  id          String        @id @default(uuid())
+  amount      Decimal       @db.Decimal(10, 2)
+  interestRate Decimal      @default(0) @db.Decimal(5, 2) @map("interest_rate")
+  totalAmount Decimal       @db.Decimal(10, 2) @map("total_amount")
+  balance     Decimal       @db.Decimal(10, 2)
+  currency    Currency      @default(ARS)
+  installments Int          @map("installments")
+  frequency   PaymentFrequency @default(MONTHLY) @map("frequency")
+  description String?
+  status      CreditStatus  @default(ACTIVE)
+  dueDate     DateTime      @map("due_date")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  clientId    String        @map("client_id")
+  userId      String        @map("user_id")
+
+  client   Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payments Payment[]
+
+  @@map("credits")
+}
+
+model Payment {
+  id        String   @id @default(uuid())
+  amount    Decimal  @db.Decimal(10, 2)
+  date      DateTime @default(now())
+  note      String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  creditId  String   @map("credit_id")
+  userId    String   @map("user_id")
+
+  credit Credit @relation(fields: [creditId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  action    String
+  entity    String
+  entityId  String   @map("entity_id")
+  details   Json?
+  createdAt DateTime @default(now()) @map("created_at")
+  userId    String   @map("user_id")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("activity_logs")
+}

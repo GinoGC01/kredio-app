@@ -1,0 +1,6 @@
+export const CREDIT_STATUS = {
+  ACTIVE: 'ACTIVE',
+  PAID: 'PAID',
+  OVERDUE: 'OVERDUE',
+  CANCELLED: 'CANCELLED',
+} as const;

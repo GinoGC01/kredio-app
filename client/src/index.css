@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root,
+[data-theme='dark'] {
+  --color-bg-base: #0d1117;
+  --color-bg-sidebar: #111827;
+  --color-bg-card: #1a2235;
+  --color-bg-card-hover: #1f2a42;
+  --color-bg-input: #1e2b40;
+
+  --color-border: #2a3a55;
+  --color-border-subtle: #1e2d44;
+
+  --color-text-primary: #e8edf5;
+  --color-text-secondary: #8a9bb5;
+  --color-text-muted: #4d5f7a;
+  --color-text-inverse: #0d1117;
+
+  --color-accent-purple: #7c5cfc;
+  --color-accent-purple-dim: #4a3580;
+  --color-accent-pink: #f05f7a;
+  --color-accent-cyan: #00bcd4;
+  --color-accent-orange: #ff8c42;
+  --color-accent-teal: #26c6da;
+  --color-accent-indigo: #5c7cfa;
+
+  --color-stat-purple-bg: #2d1f6e;
+  --color-stat-blue-bg: #1a2f5a;
+  --color-stat-teal-bg: #0d3a40;
+  --color-stat-red-bg: #3a1a2a;
+
+  --color-success: #26a69a;
+  --color-warning: #ff8c42;
+  --color-danger: #f05f7a;
+  --color-info: #5c7cfa;
+
+  --color-chart-line: #7c5cfc;
+  --color-chart-fill: rgba(124, 92, 252, 0.15);
+  --color-chart-grid: #1e2d44;
+}
+
+[data-theme='light'] {
+  --color-bg-base: #f0f4f8;
+  --color-bg-sidebar: #e8ecf2;
+  --color-bg-card: #ffffff;
+  --color-bg-card-hover: #f7f9fc;
+  --color-bg-input: #f0f4f8;
+
+  --color-border: #d0d9e8;
+  --color-border-subtle: #e4ecf4;
+
+  --color-text-primary: #1a2235;
+  --color-text-secondary: #4d6080;
+  --color-text-muted: #8a9bb5;
+  --color-text-inverse: #ffffff;
+
+  --color-accent-purple: #6c4fec;
+  --color-accent-purple-dim: #ede9ff;
+  --color-accent-pink: #e04060;
+  --color-accent-cyan: #00acc1;
+  --color-accent-orange: #f57c00;
+  --color-accent-teal: #00897b;
+  --color-accent-indigo: #4c6ef5;
+
+  --color-stat-purple-bg: #ede9ff;
+  --color-stat-blue-bg: #e3eeff;
+  --color-stat-teal-bg: #e0f7f5;
+  --color-stat-red-bg: #ffe8ec;
+
+  --color-success: #2e7d6e;
+  --color-warning: #e65100;
+  --color-danger: #c62828;
+  --color-info: #3949ab;
+
+  --color-chart-line: #6c4fec;
+  --color-chart-fill: rgba(108, 79, 236, 0.1);
+  --color-chart-grid: #e4ecf4;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bg-base);
+    color: var(--color-text-primary);
+    font-family: 'Inter', 'DM Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  .card-base {
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 0 0 transparent;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .card-base:hover {
+    border-color: var(--color-accent-purple);
+    box-shadow: 0 0 0 1px var(--color-accent-purple-dim);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-text-primary);
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.25rem;
+  }
+
+  .input-base {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    background: var(--color-bg-input);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+  }
+
+  .input-base:focus {
+    outline: none;
+    border-color: var(--color-accent-purple);
+    box-shadow: 0 0 0 2px var(--color-accent-purple-dim);
+  }
+
+  .input-base::placeholder {
+    color: var(--color-text-muted);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.25s ease-out;
+}
