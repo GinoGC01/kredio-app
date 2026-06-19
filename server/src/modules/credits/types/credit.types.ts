@@ -7,6 +7,9 @@ export interface CreateCreditDto {
   currency?: 'ARS' | 'USD';
   description?: string;
   dueDate: string;
+  moraType?: 'PERCENTAGE' | 'FIXED_AMOUNT';
+  moraPeriod?: 'DAILY' | 'WEEKLY' | 'MONTHLY';
+  moraRate?: number;
 }
 
 export interface CreditResponse {

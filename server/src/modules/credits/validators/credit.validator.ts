@@ -9,4 +9,7 @@ export const createCreditSchema = z.object({
   currency: z.enum(['ARS', 'USD']).optional().default('ARS'),
   description: z.string().optional(),
   dueDate: z.string().refine((val) => !isNaN(Date.parse(val)), 'Invalid date'),
+  moraType: z.enum(['PERCENTAGE', 'FIXED_AMOUNT']).optional(),
+  moraPeriod: z.enum(['DAILY', 'WEEKLY', 'MONTHLY']).optional(),
+  moraRate: z.number().min(0, 'Mora rate cannot be negative').optional(),
 });

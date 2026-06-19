@@ -142,7 +142,7 @@ const ActivityPage = () => {
             if (items.length === 0) return null;
             return (
               <div key={groupKey}>
-                <div className="px-5 pt-4 pb-2">
+                <div className=" pt-4 pb-2">
                   <p className="text-xs font-semibold uppercase tracking-wider text-text-muted">
                     {t(groupLabels[groupKey])}
                   </p>
@@ -154,7 +154,7 @@ const ActivityPage = () => {
                     return (
                       <div
                         key={log.id}
-                        className="flex items-start gap-3 px-5 py-3.5 hover:bg-bg-card-hover transition-colors animate-slide-up"
+                        className="flex items-start gap-3 py-3.5 hover:bg-bg-card-hover transition-colors animate-slide-up"
                         style={{ animationDelay: `${idx * 30}ms`, animationFillMode: 'both' }}
                       >
                         <div className={`w-9 h-9 rounded-lg ${cfg.bg} flex items-center justify-center shrink-0 mt-0.5`}>

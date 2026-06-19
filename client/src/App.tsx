@@ -12,8 +12,10 @@ import CreateCreditPage from './pages/CreateCreditPage';
 import CreditDetailPage from './pages/CreditDetailPage';
 import EditCreditPage from './pages/EditCreditPage';
 import PaymentsPage from './pages/PaymentsPage';
+import PaymentDetailPage from './pages/PaymentDetailPage';
 import ActivityPage from './pages/ActivityPage';
 import HelpPage from './pages/HelpPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, isLoading } = useAuth();
@@ -43,8 +45,10 @@ const App = () => {
         <Route path="/credits/:id" element={<CreditDetailPage />} />
         <Route path="/credits/:id/edit" element={<EditCreditPage />} />
         <Route path="/payments" element={<PaymentsPage />} />
+        <Route path="/payments/:id" element={<PaymentDetailPage />} />
         <Route path="/activity" element={<ActivityPage />} />
         <Route path="/help" element={<HelpPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );

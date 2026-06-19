@@ -22,4 +22,20 @@ export interface ClientResponse {
   updatedAt: Date;
   activeCredits?: number;
   totalDebt?: number;
+  totalBorrowed?: number;
+  totalCollected?: number;
+  debtArs?: number;
+  debtUsd?: number;
+  clientSince?: Date;
+}
+
+export interface RecentPaymentDto {
+  id: string;
+  amount: number;
+  date: Date;
+  currency: string;
+  creditId: string;
+  creditDescription: string | null;
+  installmentNumber: number | null;
+  method: string;
 }

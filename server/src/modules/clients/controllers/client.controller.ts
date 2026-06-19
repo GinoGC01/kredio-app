@@ -53,4 +53,15 @@ export const clientController = {
       next(error);
     }
   },
+
+  getRecentPayments: async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const id = req.params.id as string;
+      const limit = parseInt(req.query.limit as string) || 5;
+      const payments = await clientService.getRecentPayments(id, req.userId!, limit);
+      res.json(payments);
+    } catch (error) {
+      next(error);
+    }
+  },
 };

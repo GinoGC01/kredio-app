@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import net from 'net';
 import cookieParser from 'cookie-parser';
 import { env } from './config/env.js';
 import { errorMiddleware } from './shared/middlewares/error.middleware.js';
@@ -39,8 +40,22 @@ app.use('/api/activity', activityRoutes);
 
 app.use(errorMiddleware);
 
-app.listen(env.port, () => {
-  console.log(`[SERVER] Kredio API running on port ${env.port} (${env.nodeEnv})`);
-});
+function startServer(port: number) {
+  const server = app.listen(port);
+  server.on('error', (err: NodeJS.ErrnoException) => {
+    if (err.code === 'EADDRINUSE') {
+      console.log(`[SERVER] Port ${port} is in use, trying ${port + 1}...`);
+      startServer(port + 1);
+    } else {
+      console.error('[SERVER] Failed to start:', err.message);
+      process.exit(1);
+    }
+  });
+  server.on('listening', () => {
+    console.log(`[SERVER] Kredio API running on port ${port} (${env.nodeEnv})`);
+  });
+}
+
+startServer(env.port);
 
 export default app;

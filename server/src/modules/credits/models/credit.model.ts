@@ -15,6 +15,9 @@ export const creditModel = {
     status: CreditStatus;
     clientId: string;
     userId: string;
+    moraType?: 'PERCENTAGE' | 'FIXED_AMOUNT';
+    moraPeriod?: 'DAILY' | 'WEEKLY' | 'MONTHLY';
+    moraRate?: number;
   }) => {
     return prisma.credit.create({ data });
   },
@@ -48,6 +51,7 @@ export const creditModel = {
       },
       include: {
         client: { select: { id: true, name: true } },
+        _count: { select: { payments: true } },
       },
       orderBy: { createdAt: 'desc' },
     });
@@ -67,13 +71,9 @@ export const creditModel = {
     });
   },
 
-  findOverdue: (userId: string) => {
+  findAllActiveOrOverdue: (userId: string) => {
     return prisma.credit.findMany({
-      where: {
-        userId,
-        status: 'ACTIVE',
-        dueDate: { lt: new Date() },
-      },
+      where: { userId, status: { in: ['ACTIVE', 'OVERDUE'] } },
       include: { client: { select: { id: true, name: true } } },
     });
   },

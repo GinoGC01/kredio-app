@@ -28,6 +28,12 @@ export class ForbiddenError extends AppError {
   }
 }
 
+export class BadRequestError extends AppError {
+  constructor(message = 'Bad request') {
+    super(message, 400);
+  }
+}
+
 export class ValidationError extends AppError {
   constructor(message = 'Validation error') {
     super(message, 400);

@@ -12,27 +12,27 @@ interface AlertProps {
 const config: Record<AlertType, { icon: React.ReactNode; bg: string; border: string; text: string }> = {
   success: {
     icon: <FaCheckCircle className="text-success" />,
-    bg: 'bg-stat-teal-bg',
+    bg: 'bg-bg-card',
     border: 'border-success',
     text: 'text-success',
   },
   error: {
     icon: <FaExclamationCircle className="text-danger" />,
-    bg: 'bg-stat-red-bg',
+    bg: 'bg-bg-card',
     border: 'border-danger',
     text: 'text-danger',
   },
   warning: {
     icon: <FaExclamationTriangle className="text-warning" />,
-    bg: 'bg-stat-blue-bg',
+    bg: 'bg-bg-card',
     border: 'border-warning',
     text: 'text-warning',
   },
   info: {
     icon: <FaInfoCircle className="text-info" />,
-    bg: 'bg-stat-purple-bg',
+    bg: 'bg-bg-card',
     border: 'border-info',
-    text: 'text-accent-purple',
+    text: 'text-info',
   },
 };
 

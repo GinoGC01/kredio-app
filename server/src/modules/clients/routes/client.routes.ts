@@ -9,6 +9,7 @@ router.use(authMiddleware);
 router.get('/', clientController.list);
 router.post('/', clientController.create);
 router.get('/:id', clientController.getById);
+router.get('/:id/recent-payments', clientController.getRecentPayments);
 router.put('/:id', clientController.update);
 router.delete('/:id', clientController.delete);
 

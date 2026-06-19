@@ -59,6 +59,26 @@ enum PaymentFrequency {
   MONTHLY
 }
 
+enum PaymentMethod {
+  CASH
+  TRANSFER
+  DEBIT_CARD
+  CREDIT_CARD
+  OTHER
+  BIEN
+}
+
+enum MoraType {
+  PERCENTAGE
+  FIXED_AMOUNT
+}
+
+enum MoraPeriod {
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
 model Credit {
   id          String        @id @default(uuid())
   amount      Decimal       @db.Decimal(10, 2)
@@ -71,6 +91,9 @@ model Credit {
   description String?
   status      CreditStatus  @default(ACTIVE)
   dueDate     DateTime      @map("due_date")
+  moraType    MoraType?     @map("mora_type")
+  moraPeriod  MoraPeriod?   @map("mora_period")
+  moraRate    Decimal?      @default(0) @db.Decimal(10, 2) @map("mora_rate")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   clientId    String        @map("client_id")
@@ -84,14 +107,22 @@ model Credit {
 }
 
 model Payment {
-  id        String   @id @default(uuid())
-  amount    Decimal  @db.Decimal(10, 2)
-  date      DateTime @default(now())
-  note      String?
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  creditId  String   @map("credit_id")
-  userId    String   @map("user_id")
+  id               String        @id @default(uuid())
+  amount           Decimal       @db.Decimal(10, 2)
+  originalAmount   Decimal       @default(0) @db.Decimal(10, 2) @map("original_amount")
+  interestAmount   Decimal       @default(0) @db.Decimal(10, 2) @map("interest_amount")
+  moraAmount       Decimal       @default(0) @db.Decimal(10, 2) @map("mora_amount")
+  previousBalance  Decimal       @default(0) @db.Decimal(10, 2) @map("previous_balance")
+  installmentNumber Int?          @map("installment_number")
+  method           PaymentMethod @default(CASH)
+  date             DateTime      @default(now())
+  note             String?
+  isVoided         Boolean       @default(false) @map("is_voided")
+  voidedAt         DateTime?     @map("voided_at")
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @updatedAt @map("updated_at")
+  creditId         String        @map("credit_id")
+  userId           String        @map("user_id")
 
   credit Credit @relation(fields: [creditId], references: [id], onDelete: Cascade)
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)

@@ -172,7 +172,7 @@ export const MainLayout = () => {
       {/* Main area */}
       <div className="flex-1 flex flex-col h-screen min-w-0 overflow-y-scroll relative z-10">
         {/* Topbar */}
-        <header className="h-14 lg:h-16 topbar flex items-center justify-between px-4 lg:px-6 shrink-0">
+        <header className="h-16 topbar flex items-center justify-between px-4 lg:px-6 shrink-0">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}

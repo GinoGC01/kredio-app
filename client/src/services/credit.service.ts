@@ -15,6 +15,9 @@ export const creditService = {
     currency?: 'ARS' | 'USD';
     description?: string;
     dueDate: string;
+    moraType?: 'PERCENTAGE' | 'FIXED_AMOUNT';
+    moraPeriod?: 'DAILY' | 'WEEKLY' | 'MONTHLY';
+    moraRate?: number;
   }) => api.post<Credit>('/credits', data),
   update: (id: string, data: {
     amount?: number;

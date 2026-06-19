@@ -2,4 +2,4 @@
 ALTER TABLE "users" ADD COLUMN "last_activity_at" TIMESTAMP(3);
 
 -- AlterTable: remove last_activity_at from credits (wrong table)
-ALTER TABLE "credits" DROP COLUMN "last_activity_at";
+ALTER TABLE "credits" DROP COLUMN IF EXISTS "last_activity_at";

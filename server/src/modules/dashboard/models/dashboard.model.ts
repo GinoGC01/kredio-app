@@ -18,7 +18,7 @@ export const dashboardModel = {
         dueDate: true,
         totalAmount: true,
         currency: true,
-        client: { select: { name: true } },
+        client: { select: { id: true, name: true } },
       },
     });
   },
@@ -37,6 +37,10 @@ export const dashboardModel = {
           select: {
             client: { select: { name: true } },
             currency: true,
+            description: true,
+            installments: true,
+            dueDate: true,
+            frequency: true,
           },
         },
       },
@@ -45,26 +49,13 @@ export const dashboardModel = {
     });
   },
 
-  getUpcomingDueDates: (userId: string, limit = 5, dateFrom?: Date, dateTo?: Date) => {
+  getAllActiveCredits: (userId: string) => {
     return prisma.credit.findMany({
-      where: {
-        userId,
-        status: 'ACTIVE',
-        dueDate: {
-          gte: dateFrom ?? new Date(),
-          ...(dateTo ? { lte: dateTo } : {}),
-        },
-      },
-      select: {
-        id: true,
-        amount: true,
-        balance: true,
-        dueDate: true,
-        currency: true,
+      where: { userId, status: 'ACTIVE' },
+      include: {
+        _count: { select: { payments: true } },
         client: { select: { name: true } },
       },
-      orderBy: { dueDate: 'asc' },
-      take: limit,
     });
   },
 
@@ -82,6 +73,41 @@ export const dashboardModel = {
           select: { currency: true },
         },
       },
+    });
+  },
+
+  getOverdueClients: (userId: string) => {
+    return prisma.credit.findMany({
+      where: { userId, status: 'OVERDUE' },
+      select: {
+        id: true,
+        balance: true,
+        currency: true,
+        dueDate: true,
+        installments: true,
+        frequency: true,
+        _count: { select: { payments: true } },
+        client: { select: { id: true, name: true } },
+      },
+      orderBy: { dueDate: 'asc' },
+    });
+  },
+
+  getMonthlyCollection: (userId: string, dateFrom?: Date, dateTo?: Date) => {
+    return prisma.payment.findMany({
+      where: {
+        userId,
+        date: {
+          ...(dateFrom ? { gte: dateFrom } : {}),
+          ...(dateTo ? { lte: dateTo } : {}),
+        },
+      },
+      select: {
+        date: true,
+        amount: true,
+        credit: { select: { currency: true } },
+      },
+      orderBy: { date: 'asc' },
     });
   },
 };

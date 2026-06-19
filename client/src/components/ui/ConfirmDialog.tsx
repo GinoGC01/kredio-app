@@ -8,10 +8,11 @@ interface ConfirmDialogProps {
   onClose: () => void;
   onConfirm: () => void;
   title: string;
-  message: string;
+  message: string | React.ReactNode;
   confirmText?: string;
   cancelText?: string;
   variant?: 'danger' | 'warning';
+  disabled?: boolean;
 }
 
 export const ConfirmDialog = ({
@@ -23,6 +24,7 @@ export const ConfirmDialog = ({
   confirmText = 'Confirmar',
   cancelText = 'Cancelar',
   variant = 'danger',
+  disabled,
 }: ConfirmDialogProps) => {
   const handleConfirm = () => {
     onConfirm();
@@ -40,12 +42,16 @@ export const ConfirmDialog = ({
           <FaExclamationTriangle />
         </div>
         <h3 className="text-lg font-semibold text-text-primary">{title}</h3>
-        <p className="text-sm text-text-secondary max-w-xs">{message}</p>
+        {typeof message === 'string' ? (
+          <p className="text-sm text-text-secondary max-w-xs">{message}</p>
+        ) : (
+          <div className="text-sm text-text-secondary w-full text-left">{message}</div>
+        )}
         <div className="flex gap-3 mt-2">
           <Button variant="secondary" onClick={onClose}>
             {cancelText}
           </Button>
-          <Button variant={variant === 'danger' ? 'danger' : 'primary'} onClick={handleConfirm}>
+          <Button variant={variant === 'danger' ? 'danger' : 'primary'} onClick={handleConfirm} disabled={disabled}>
             {confirmText}
           </Button>
         </div>

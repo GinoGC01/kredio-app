@@ -22,3 +22,11 @@ export function formatDateShort(isoString: string, language: 'en' | 'es'): strin
   }
   return date.toLocaleDateString(locale, options);
 }
+
+export function calculateNextDueDate(firstDueDate: string, paidCount: number, frequency: string): Date {
+  const due = new Date(firstDueDate);
+  if (frequency === 'WEEKLY') due.setDate(due.getDate() + paidCount * 7);
+  else if (frequency === 'BIWEEKLY') due.setDate(due.getDate() + paidCount * 14);
+  else if (frequency === 'MONTHLY') due.setMonth(due.getMonth() + paidCount);
+  return due;
+}
