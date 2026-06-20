@@ -1,19 +1,11 @@
 import { creditModel } from '../models/credit.model.js';
-import { paymentModel } from '../../payments/models/payment.model.js';
 import { CreateCreditDto } from '../types/credit.types.js';
 import { NotFoundError } from '../../../shared/errors/AppError.js';
 import { clientModel } from '../../clients/models/client.model.js';
 import { activityService } from '../../activity/services/activity.service.js';
 import { CreditStatus } from '@prisma/client';
 import { DateRangeFilter, calculateDateRange } from '../../../shared/types/date-filter.js';
-
-function calculateInstallmentDueDate(firstDueDate: Date, installmentNumber: number, frequency: string): Date {
-  const due = new Date(firstDueDate);
-  if (frequency === 'WEEKLY') due.setDate(due.getDate() + (installmentNumber - 1) * 7);
-  else if (frequency === 'BIWEEKLY') due.setDate(due.getDate() + (installmentNumber - 1) * 14);
-  else if (frequency === 'MONTHLY') due.setMonth(due.getMonth() + (installmentNumber - 1));
-  return due;
-}
+import { calculateInstallmentDueDate } from '../../../shared/utils/date-utils.js';
 
 export const creditService = {
   updateOverdueStatuses: async (userId: string) => {
@@ -22,7 +14,7 @@ export const creditService = {
     let count = 0;
 
     for (const credit of credits) {
-      const paidCount = await paymentModel.countByCredit(credit.id);
+      const paidCount = credit._count.payments;
       const nextInstallment = paidCount + 1;
 
       if (nextInstallment > credit.installments) {

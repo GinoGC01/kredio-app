@@ -22,6 +22,7 @@ model User {
   payments     Payment[]
   activityLogs ActivityLog[]
 
+  @@index([lastActivityAt])
   @@map("users")
 }
 
@@ -38,6 +39,7 @@ model Client {
   user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   credits  Credit[]
 
+  @@index([userId])
   @@map("clients")
 }
 
@@ -103,6 +105,9 @@ model Credit {
   user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   payments Payment[]
 
+  @@index([userId, status])
+  @@index([userId, dueDate])
+  @@index([clientId])
   @@map("credits")
 }
 
@@ -127,6 +132,9 @@ model Payment {
   credit Credit @relation(fields: [creditId], references: [id], onDelete: Cascade)
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId, date])
+  @@index([creditId, isVoided])
+  @@index([creditId])
   @@map("payments")
 }
 

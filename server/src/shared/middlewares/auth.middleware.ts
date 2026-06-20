@@ -14,6 +14,10 @@ interface JwtPayload {
   exp: number;
 }
 
+// Throttle lastActivity writes — once every 5 minutes per user
+const activityThrottle = new Map<string, number>();
+const ACTIVITY_THROTTLE_MS = 5 * 60 * 1000;
+
 export const authMiddleware = async (
   req: AuthenticatedRequest,
   res: Response,
@@ -41,7 +45,13 @@ export const authMiddleware = async (
       }
     }
 
-    await authModel.updateLastActivity(decoded.userId);
+    // Only update lastActivity if enough time has passed since last write
+    const lastWrite = activityThrottle.get(decoded.userId) ?? 0;
+    if (Date.now() - lastWrite > ACTIVITY_THROTTLE_MS) {
+      await authModel.updateLastActivity(decoded.userId);
+      activityThrottle.set(decoded.userId, Date.now());
+    }
+
     req.userId = decoded.userId;
     next();
   } catch (error) {

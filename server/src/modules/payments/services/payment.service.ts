@@ -6,14 +6,7 @@ import { activityService } from '../../activity/services/activity.service.js';
 import { CreditStatus } from '@prisma/client';
 import { calculateDateRange, DateRangeFilter } from '../../../shared/types/date-filter.js';
 import { prisma } from '../../../config/database.js';
-
-function calculateInstallmentDueDate(firstDueDate: Date, installmentNumber: number, frequency: string): Date {
-  const due = new Date(firstDueDate);
-  if (frequency === 'WEEKLY') due.setDate(due.getDate() + (installmentNumber - 1) * 7);
-  else if (frequency === 'BIWEEKLY') due.setDate(due.getDate() + (installmentNumber - 1) * 14);
-  else if (frequency === 'MONTHLY') due.setMonth(due.getMonth() + (installmentNumber - 1));
-  return due;
-}
+import { calculateInstallmentDueDate } from '../../../shared/utils/date-utils.js';
 
 function calculateMora(credit: any, daysLate: number, totalAmount: number): number {
   if (!credit.moraType || !credit.moraRate || daysLate <= 0) return 0;

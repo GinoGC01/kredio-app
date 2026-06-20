@@ -1,15 +1,9 @@
 import { prisma } from '../../../config/database.js';
 
 export const dashboardModel = {
-  getCreditStats: (userId: string, dateFrom?: Date, dateTo?: Date) => {
+  getAllCreditsWithInfo: (userId: string) => {
     return prisma.credit.findMany({
-      where: {
-        userId,
-        dueDate: {
-          ...(dateFrom ? { gte: dateFrom } : {}),
-          ...(dateTo ? { lte: dateTo } : {}),
-        },
-      },
+      where: { userId },
       select: {
         id: true,
         amount: true,
@@ -18,6 +12,10 @@ export const dashboardModel = {
         dueDate: true,
         totalAmount: true,
         currency: true,
+        installments: true,
+        frequency: true,
+        description: true,
+        _count: { select: { payments: true } },
         client: { select: { id: true, name: true } },
       },
     });
@@ -27,6 +25,7 @@ export const dashboardModel = {
     return prisma.payment.findMany({
       where: {
         userId,
+        isVoided: false,
         date: {
           ...(dateFrom ? { gte: dateFrom } : {}),
           ...(dateTo ? { lte: dateTo } : {}),
@@ -49,20 +48,11 @@ export const dashboardModel = {
     });
   },
 
-  getAllActiveCredits: (userId: string) => {
-    return prisma.credit.findMany({
-      where: { userId, status: 'ACTIVE' },
-      include: {
-        _count: { select: { payments: true } },
-        client: { select: { name: true } },
-      },
-    });
-  },
-
   getPaymentsWithCurrency: (userId: string, dateFrom?: Date, dateTo?: Date) => {
     return prisma.payment.findMany({
       where: {
         userId,
+        isVoided: false,
         date: {
           ...(dateFrom ? { gte: dateFrom } : {}),
           ...(dateTo ? { lte: dateTo } : {}),
@@ -76,27 +66,11 @@ export const dashboardModel = {
     });
   },
 
-  getOverdueClients: (userId: string) => {
-    return prisma.credit.findMany({
-      where: { userId, status: 'OVERDUE' },
-      select: {
-        id: true,
-        balance: true,
-        currency: true,
-        dueDate: true,
-        installments: true,
-        frequency: true,
-        _count: { select: { payments: true } },
-        client: { select: { id: true, name: true } },
-      },
-      orderBy: { dueDate: 'asc' },
-    });
-  },
-
   getMonthlyCollection: (userId: string, dateFrom?: Date, dateTo?: Date) => {
     return prisma.payment.findMany({
       where: {
         userId,
+        isVoided: false,
         date: {
           ...(dateFrom ? { gte: dateFrom } : {}),
           ...(dateTo ? { lte: dateTo } : {}),

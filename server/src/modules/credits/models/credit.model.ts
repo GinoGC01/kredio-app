@@ -74,7 +74,7 @@ export const creditModel = {
   findAllActiveOrOverdue: (userId: string) => {
     return prisma.credit.findMany({
       where: { userId, status: { in: ['ACTIVE', 'OVERDUE'] } },
-      include: { client: { select: { id: true, name: true } } },
+      include: { _count: { select: { payments: true } } },
     });
   },
 };
