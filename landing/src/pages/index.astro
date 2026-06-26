@@ -1,20 +1,18 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
-import Hero from '../components/Hero.astro';
-import Partners from '../components/Partners.astro';
-import Benefits from '../components/Benefits.astro';
-import Stats from '../components/Stats.astro';
-import CTA from '../components/CTA.astro';
-import Footer from '../components/Footer.astro';
+import Layout from '../layouts/Layout.astro'
+import Header from '../components/layout/Header.astro'
+import Footer from '../components/layout/Footer.astro'
+import HeroSection from '../components/hero/HeroSection.astro'
+import FeaturesSection from '../components/features/FeaturesSection.astro'
+import AboutSection from '../components/about/AboutSection.astro'
 ---
 
-<Layout title="Kredio — Gestioná tu crédito hoy" description="Gestioná clientes, cuotas y cobranzas desde un solo lugar.">
-  <Navbar />
-  <Hero />
-  <Partners />
-  <Benefits />
-  <Stats />
-  <CTA />
+<Layout title="Kredio — Digitize your financial">
+  <Header />
+  <main class="bg-[#F0EDE8]">
+    <HeroSection />
+    <FeaturesSection />
+    <AboutSection />
+  </main>
   <Footer />
 </Layout>

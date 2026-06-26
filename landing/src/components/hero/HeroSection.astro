@@ -1,0 +1,68 @@
+---
+import CardShowcase from './CardShowcase.astro'
+---
+
+<section class="bg-kredio-dark text-white pt-24 pb-0 rounded-b-[48px] relative overflow-visible z-10">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start mb-12">
+
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05]">
+        Digitize your<br/>financial
+      </h1>
+
+      <div class="flex flex-col gap-6 md:pt-3">
+        <p class="text-white/50 text-sm md:text-base max-w-xs leading-relaxed">
+          Money should be easy. It's time to say goodbye to banks &amp; financial services
+          companies that don't work for you.
+        </p>
+        <div class="flex items-center gap-4">
+          <a href="#"
+             class="bg-kredio-lime text-black font-bold text-sm px-7 py-3.5 rounded-full
+                    flex items-center gap-2 hover:brightness-110 transition-all">
+            Digitize Now
+          </a>
+          <button
+            class="w-12 h-12 rounded-full border border-white/20 bg-white/5
+                   flex items-center justify-center hover:bg-white/10 transition-all">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="white">
+              <polygon points="3,1 13,7 3,13"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-16">
+
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full border border-yellow-400/60 flex items-center justify-center text-yellow-400 text-xs font-bold">
+          &#9733;
+        </div>
+        <div>
+          <p class="text-yellow-400 text-[10px] font-semibold tracking-wide uppercase">2022</p>
+          <p class="text-white/60 text-[10px] leading-tight">The world's<br/>best digital banks</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="flex -space-x-2">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-pink-500 border-2 border-kredio-dark"></div>
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500  border-2 border-kredio-dark"></div>
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-cyan-500   border-2 border-kredio-dark"></div>
+        </div>
+        <div>
+          <p class="text-white font-bold text-xl leading-none">12 M</p>
+          <div class="flex items-center gap-1 mt-0.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span>
+            <span class="text-white/50 text-[10px]">World active user</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="relative mt-12 pb-20">
+    <CardShowcase />
+  </div>
+</section>

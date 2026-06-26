@@ -1,82 +1,15 @@
 ---
-import '../styles/global.css';
-import '../styles/blobs.css';
-import '../styles/animations.css';
-
-interface Props {
-  title: string;
-  description: string;
-}
-const { title, description } = Astro.props;
+import '../styles/global.css'
 ---
+
 <!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title}</title>
-  <meta name="description" content={description} />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
-
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="icon" href="/favicon.ico" />
-</head>
-<body>
-  <slot />
-
-  <script is:inline src="/scripts/navbar.js"></script>
-  <script is:inline src="/scripts/scroll-reveal.js"></script>
-  <script is:inline src="/scripts/counter.js"></script>
-  <script is:inline src="/scripts/blob-parallax.js"></script>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{Astro.props.title || 'Kredio'}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
-
-<style is:global>
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 150ms ease;
-    border: none;
-    white-space: nowrap;
-  }
-
-  .btn--primary {
-    background: var(--c-accent);
-    color: #080808;
-  }
-  .btn--primary:hover {
-    background: var(--c-accent-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 8px 24px var(--c-accent-glow);
-  }
-
-  .btn--ghost {
-    background: transparent;
-    color: var(--c-text-primary);
-    border: 1px solid var(--c-border);
-  }
-  .btn--ghost:hover {
-    border-color: var(--c-border-hover);
-    background: rgba(255,255,255,0.05);
-  }
-
-  .btn--outline {
-    background: transparent;
-    color: var(--c-accent);
-    border: 1px solid var(--c-accent);
-  }
-  .btn--outline:hover {
-    background: var(--c-accent-dim);
-    box-shadow: 0 0 20px var(--c-accent-glow);
-  }
-</style>

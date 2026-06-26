@@ -1,0 +1,36 @@
+---
+---
+
+<section id="about" class="bg-kredio-light pb-32">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start mb-16">
+      <div>
+        <p class="text-kredio-gray-text text-xs font-semibold uppercase tracking-widest mb-4">About Us</p>
+        <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight text-black leading-tight">
+          Get to know more<br/>about kredio
+        </h2>
+      </div>
+      <div class="md:pt-12">
+        <p class="text-kredio-gray-text text-sm leading-relaxed max-w-sm">
+          We are a customer-focused digital bank that provides complete financial solutions to meet
+          your entire financial needs.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {[
+        { value: '243K', label: 'Active customers worldwide' },
+        { value: '489M', label: 'Transactions processed' },
+        { value: '267%', label: 'Year-over-year growth' },
+      ].map(({ value, label }) => (
+        <div class="bg-black/[0.03] rounded-2xl p-8 text-center">
+          <p class="text-6xl font-extrabold tracking-tight text-black/10 mb-2">{value}</p>
+          <p class="text-kredio-gray-text text-sm">{label}</p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

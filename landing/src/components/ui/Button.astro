@@ -1,0 +1,24 @@
+---
+export interface Props {
+  variant?: 'primary' | 'secondary' | 'outline'
+  href?: string
+}
+
+const { variant = 'primary', href } = Astro.props
+
+const base = 'text-sm font-semibold px-7 py-3.5 rounded-full transition-all inline-flex items-center gap-2'
+
+const variants: Record<string, string> = {
+  primary:   'bg-kredio-lime text-black hover:brightness-110',
+  secondary: 'bg-black text-white hover:bg-neutral-800',
+  outline:   'bg-white/10 border border-white/20 text-white hover:bg-white/20',
+}
+
+const cls = `${base} ${variants[variant]}`
+---
+
+{
+  href
+    ? <a href={href} class={cls}><slot /></a>
+    : <button class={cls}><slot /></button>
+}

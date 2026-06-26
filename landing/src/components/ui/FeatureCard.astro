@@ -1,0 +1,15 @@
+---
+export interface Props {
+  title: string
+  description: string
+  dark?: boolean
+}
+
+const { title, description, dark = false } = Astro.props
+---
+
+<div class:list={['rounded-2xl p-6 flex flex-col gap-3', dark ? 'bg-kredio-dark shadow-xl' : 'bg-white shadow-sm']}>
+  <p class:list={['font-semibold text-sm', dark ? 'text-white' : 'text-black']}>{title}</p>
+  <slot name="graphic" />
+  <p class:list={['text-xs leading-relaxed', dark ? 'text-white/50' : 'text-kredio-gray-text']}>{description}</p>
+</div>
