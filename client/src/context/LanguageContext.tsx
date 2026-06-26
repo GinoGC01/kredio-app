@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
 
 type Language = 'en' | 'es';
 
@@ -358,13 +358,15 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
     localStorage.setItem('kredio-lang', language);
   }, [language]);
 
-  const toggleLanguage = () => setLanguage((prev) => (prev === 'es' ? 'en' : 'es'));
+  const toggleLanguage = useCallback(() => setLanguage((prev) => (prev === 'es' ? 'en' : 'es')), []);
 
-  const t = (key: string): string => {
+  const t = useCallback((key: string): string => {
     return translations[key]?.[language] ?? key;
-  };
+  }, [language]);
 
-  return <LanguageContext.Provider value={{ language, toggleLanguage, t }}>{children}</LanguageContext.Provider>;
+  const value = useMemo(() => ({ language, toggleLanguage, t }), [language, toggleLanguage, t]);
+
+  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 };
 
 export const useLanguage = () => {

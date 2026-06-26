@@ -338,12 +338,7 @@
   }
 }
 
-html.theme-transition,
-html.theme-transition *,
-html.theme-transition *::before,
-html.theme-transition *::after {
-  transition: background-color 0.35s ease,
-              border-color 0.35s ease,
-              color 0.35s ease,
-              box-shadow 0.35s ease !important;
+html.theme-transition body {
+  transition: background-color 0.25s ease,
+              color 0.25s ease !important;
 }

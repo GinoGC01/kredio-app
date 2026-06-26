@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useInactivityTracker } from '../hooks/useInactivityTracker';
@@ -44,10 +44,12 @@ export const MainLayout = () => {
     return () => { document.body.style.overflow = ''; };
   }, [sidebarOpen]);
 
-  useInactivityTracker(() => {
+  const handleInactivityExpired = useCallback(() => {
     logout();
     navigate('/login');
-  });
+  }, [logout, navigate]);
+
+  useInactivityTracker(handleInactivityExpired);
 
   const handleLogout = () => {
     setShowLogoutConfirm(true);

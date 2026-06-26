@@ -21,6 +21,7 @@ declare global {
             element: HTMLElement,
             options: { theme?: string; size?: string; type?: string; shape?: string; text?: string; logo_alignment?: string; width?: string },
           ) => void;
+          cancel?: () => void;
         };
       };
     };
@@ -39,9 +40,11 @@ const LoginPage = () => {
   const { addToast } = useToast();
   const navigate = useNavigate();
   const googleButtonRef = useRef<HTMLDivElement>(null);
+  const googleInitialized = useRef(false);
 
   useEffect(() => {
-    if (!window.google || !googleButtonRef.current) return;
+    if (!window.google || !googleButtonRef.current || googleInitialized.current) return;
+    googleInitialized.current = true;
 
     window.google.accounts.id.initialize({
       client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
@@ -64,6 +67,10 @@ const LoginPage = () => {
       logo_alignment: 'left',
       width: '400',
     });
+
+    return () => {
+      window.google?.accounts.id.cancel?.();
+    };
   }, [googleLogin, navigate, t]);
 
   const handleSubmit = async (e: React.FormEvent) => {

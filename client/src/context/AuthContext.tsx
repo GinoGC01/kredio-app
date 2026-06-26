@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, ReactNode } from 'react';
 import { User } from '../types';
 import { authService } from '../services/auth.service';
 interface AuthContextType {
@@ -30,34 +30,43 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const handleUnauthorized = () => clearSession();
     window.addEventListener('auth:unauthorized', handleUnauthorized);
     return () => window.removeEventListener('auth:unauthorized', handleUnauthorized);
-  }, []);
+  }, [clearSession]);
 
-  const login = async (email: string, password: string) => {
+  const login = useCallback(async (email: string, password: string) => {
     const res = await authService.login(email, password);
     setUser(res.data.user);
-  };
+  }, []);
 
-  const register = async (email: string, name: string, password: string) => {
+  const register = useCallback(async (email: string, name: string, password: string) => {
     const res = await authService.register(email, name, password);
     setUser(res.data.user);
-  };
+  }, []);
 
-  const googleLogin = async (credential: string) => {
+  const googleLogin = useCallback(async (credential: string) => {
     const res = await authService.googleLogin(credential);
     setUser(res.data.user);
-  };
+  }, []);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
       await authService.logout();
     } catch {
       // ignore
     }
     setUser(null);
-  };
+  }, []);
+
+  const value = useMemo(() => ({
+    user,
+    login,
+    register,
+    googleLogin,
+    logout,
+    isLoading,
+  }), [user, login, register, googleLogin, logout, isLoading]);
 
   return (
-    <AuthContext.Provider value={{ user, login, register, googleLogin, logout, isLoading }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

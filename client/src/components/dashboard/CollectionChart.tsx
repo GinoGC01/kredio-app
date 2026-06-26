@@ -40,7 +40,7 @@ export const CollectionChart = ({ data, language }: Props) => {
 
   return (
     <div className="w-full h-64">
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height={256}>
         <BarChart data={chartData} barGap={2} barCategoryGap="20%" margin={{ left: -20, right: 0, top: 4, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border-subtle, #2a2a3a)" />
           <XAxis

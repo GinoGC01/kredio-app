@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useRef, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useCallback, useRef, useEffect, useMemo, ReactNode } from 'react';
 import { FaCheckCircle, FaExclamationCircle, FaInfoCircle, FaExclamationTriangle, FaTimes } from 'react-icons/fa';
 
 type ToastType = 'success' | 'error' | 'info' | 'warning';
@@ -74,8 +74,10 @@ export const AlertProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
+  const value = useMemo(() => ({ toasts, addToast, removeToast }), [toasts, addToast, removeToast]);
+
   return (
-    <AlertContext.Provider value={{ toasts, addToast, removeToast }}>
+    <AlertContext.Provider value={value}>
       {children}
       <div className="fixed bottom-5 right-5 z-[60] flex flex-col gap-3 max-w-sm w-full pointer-events-none">
         {toasts.map((toast) => (
