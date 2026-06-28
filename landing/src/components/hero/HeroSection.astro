@@ -1,68 +1,226 @@
 ---
-import CardShowcase from './CardShowcase.astro'
 ---
+<section id="content" class="text-white pt-24 pb-0 relative overflow-visible z-10 md:h-[90vh] h-[100vh] overflow-y-hidden" style="background: radial-gradient(ellipse 80% 60% at 50% 100%, #418eec 0%, #296ec9 45%, #0445a7 100%);">
 
-<section class="bg-kredio-dark text-white pt-24 pb-0 rounded-b-[48px] relative overflow-visible z-10">
-  <div class="max-w-7xl mx-auto px-6">
+  <!-- content -->
+  <div class=" mx-auto px-0 flex items-center justify-center flex-col gap-8 mt-[7rem]">
+    <h1 class="text-5xl md:text-6xl lg:text-9xl font-extrabold tracking-tight leading-[1.05]">Tus prestamos y creditos</h1>
+    <h2 class="text-white/50 text-sm md:text-xl leading-relaxed">
+      Desde un solo lugar, rapido, simple y sin que se te pase nada
+    </h2>
+  </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start mb-12">
+  <!-- Cards hero -->
+  <div class="max-w-[50%] rounded-xl absolute bottom-[17rem] left-1/2 -translate-x-1/2 translate-y-1/2 z-1">
+    <div class="w-full relative" style="perspective: 800px;">
 
-      <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05]">
-        Digitize your<br/>financial
-      </h1>
+      <!-- Izquierda — detrás -->
+      <img
+        id="heroCardLeft"
+        src="../images/hero/hero-w-1.png"
+        alt=""
+        class="block rounded-xl absolute w-full left-[-20%] bottom-[-40px] z-0"
+        style="will-change: transform; transform-origin: center center;"
+      >
 
-      <div class="flex flex-col gap-6 md:pt-3">
-        <p class="text-white/50 text-sm md:text-base max-w-xs leading-relaxed">
-          Money should be easy. It's time to say goodbye to banks &amp; financial services
-          companies that don't work for you.
-        </p>
-        <div class="flex items-center gap-4">
-          <a href="#"
-             class="bg-kredio-lime text-black font-bold text-sm px-7 py-3.5 rounded-full
-                    flex items-center gap-2 hover:brightness-110 transition-all">
-            Digitize Now
-          </a>
-          <button
-            class="w-12 h-12 rounded-full border border-white/20 bg-white/5
-                   flex items-center justify-center hover:bg-white/10 transition-all">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="white">
-              <polygon points="3,1 13,7 3,13"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
+      <!-- Derecha — detrás -->
+      <img
+        id="heroCardRight"
+        src="../images/hero/hero-w-2.png"
+        alt=""
+        class="block rounded-xl absolute w-full right-[-20%] bottom-[-40px] z-0"
+        style="will-change: transform; transform-origin: center center;"
+      >
 
-    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-16">
+      <!-- Centro — adelante -->
+      <img
+        id="heroCard"
+        src="../images/hero/hero-w.png"
+        alt=""
+        class="block rounded-xl w-full relative z-10 shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
+        style="transform-style: preserve-3d; will-change: transform;"
+      >
 
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-full border border-yellow-400/60 flex items-center justify-center text-yellow-400 text-xs font-bold">
-          &#9733;
-        </div>
-        <div>
-          <p class="text-yellow-400 text-[10px] font-semibold tracking-wide uppercase">2022</p>
-          <p class="text-white/60 text-[10px] leading-tight">The world's<br/>best digital banks</p>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-3">
-        <div class="flex -space-x-2">
-          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-pink-500 border-2 border-kredio-dark"></div>
-          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500  border-2 border-kredio-dark"></div>
-          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-cyan-500   border-2 border-kredio-dark"></div>
-        </div>
-        <div>
-          <p class="text-white font-bold text-xl leading-none">12 M</p>
-          <div class="flex items-center gap-1 mt-0.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span>
-            <span class="text-white/50 text-[10px]">World active user</span>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
-  <div class="relative mt-12 pb-20">
-    <CardShowcase />
-  </div>
+  <!-- CTA 2 -->
+  <a id="ctaBtn" href="#" class="absolute bottom-[60px] md:bottom-[120px] left-1/2 -translate-x-1/2 translate-y-1/2 z-30">
+    <div class="relative w-[93px] h-[93px] md:w-[140px] md:h-[140px] rounded-full bg-[#056ffd] grid place-content-center group">
+
+      <svg
+        class="absolute inset-0 w-full h-full animate-spin pointer-events-none"
+        style="animation-duration: 10s;"
+        viewBox="0 0 100 100"
+      >
+        <defs>
+          <path id="ringText" d="M 50,50 m -42,0 a 42,42 0 1,1 84,0 a 42,42 0 1,1 -84,0"/>
+        </defs>
+        <text font-size="7" fill="white" font-weight="700" letter-spacing="4.6" font-family="sans-serif">
+          <textPath href="#ringText">• PROBAR AHORA • PROBAR AHORA </textPath>
+        </text>
+      </svg>
+
+      <div class="w-[60px] h-[60px] md:w-[110px] md:h-[110px] rounded-full bg-[#f1f1f1]
+                  flex items-center justify-center
+                  shadow-xl transition-transform group-hover:scale-105 group-hover:shadow-[0_0_7px_rgba(0,0,0,1)]">
+        <img src="../images/logo-kredio.webp" alt="" class="block w-[3em] h-[3em]">
+      </div>
+
+    </div>
+  </a>
+
+  <!-- Marco SVG -->
+  <svg
+    id="frameSvg"
+    xmlns="http://www.w3.org/2000/svg"
+    class="absolute inset-0 w-full h-full pointer-events-none z-20"
+    style="filter: drop-shadow(0 -4px 16px rgba(0,0,0,0.5)); transition: filter 0.4s ease;"
+  >
+    <path id="framePath" fill-rule="evenodd"/>
+  </svg>
+
 </section>
+
+<script>
+  // ── Referencias ─────────────────────────────────────────────────
+  const section   = document.getElementById('content')       as HTMLElement;
+  const card      = document.getElementById('heroCard')      as HTMLImageElement;
+  const cardLeft  = document.getElementById('heroCardLeft')  as HTMLImageElement;
+  const cardRight = document.getElementById('heroCardRight') as HTMLImageElement;
+  const ctaBtn    = document.getElementById('ctaBtn')        as HTMLElement;
+  const frameSvg  = document.getElementById('frameSvg')      as unknown as SVGSVGElement;
+  const framePath = document.getElementById('framePath')     as unknown as SVGPathElement;
+
+  // ── Hover CTA → sombra intensa ───────────────────────────────────
+  ctaBtn.addEventListener('mouseenter', () => {
+    frameSvg.style.filter = 'drop-shadow(0 -8px 32px rgba(0,0,0,0.7))';
+  });
+
+  ctaBtn.addEventListener('mouseleave', () => {
+    frameSvg.style.filter = 'drop-shadow(0 -4px 16px rgba(0,0,0,0.5))';
+  });
+
+  // ── Parámetros ──────────────────────────────────────────────────
+  const LERP         = 0.05;
+  const MAX_TILT     = 8;
+  const MAX_SIDE_ROT = 15;
+  const MAX_SIDE_TX  = 20;
+
+  let targetX  = 0, targetY  = 0;
+  let currentX = 0, currentY = 0;
+  let nx = 0, ny = 0;
+  let cnx = 0, cny = 0;
+
+  section.addEventListener('mousemove', (e) => {
+    const rect = section.getBoundingClientRect();
+    nx = (e.clientX - rect.left)  / rect.width  - 0.5;
+    ny = (e.clientY - rect.top)   / rect.height - 0.5;
+    targetY =  nx * MAX_TILT;
+    targetX = -ny * MAX_TILT;
+  });
+
+  section.addEventListener('mouseleave', () => {
+    targetX = 0; targetY = 0;
+    nx = 0; ny = 0;
+  });
+
+  function animate() {
+    currentX += (targetX - currentX) * LERP;
+    currentY += (targetY - currentY) * LERP;
+
+    card.style.transform = `scale(1.02) rotateX(${currentX}deg) rotateY(${currentY}deg)`;
+    card.style.boxShadow = `${-currentY * 2}px ${currentX * 2 + 16}px 40px rgba(0,0,0,0.55)`;
+
+    cnx += (nx - cnx) * LERP;
+    cny += (ny - cny) * LERP;
+
+    const leftTX  = -MAX_SIDE_TX  * (1 + cnx * 0.4);
+    const leftRot = -MAX_SIDE_ROT * (0.5 + cnx * 0.5);
+    cardLeft.style.transform = `translateX(${leftTX}%) rotateY(${leftRot}deg)`;
+
+    const rightTX  = MAX_SIDE_TX  * (1 - cnx * 0.4);
+    const rightRot = MAX_SIDE_ROT * (0.5 - cnx * 0.5);
+    cardRight.style.transform = `translateX(${rightTX}%) rotateY(${rightRot}deg)`;
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  // ── SVG Frame ───────────────────────────────────────────────────
+  const CONFIGS = {
+    desktop: {
+      frameColor  : '#f0ede9',
+      shapeRadius : 20,
+      tabWidth    : 200,
+      tabDepth    : 65,
+      flare       : 26,
+      topCurve    : 56,
+      bottomCurve : 66,
+      paddingTop  : 10,
+      paddingLeft : 10,
+      paddingRight: 10,
+    },
+    mobile: {
+      frameColor  : '#f0ede9',
+      shapeRadius : 20,
+      tabWidth    : 216,
+      tabDepth    : 58,
+      flare       : 17,
+      topCurve    : 101,
+      bottomCurve : 61,
+      paddingTop  : 10,
+      paddingLeft  : 10,
+      paddingRight: 10,
+    },
+  };
+
+  const container = document.getElementById('content') as HTMLElement;
+
+  function getConfig() {
+    return window.innerWidth < 768 ? CONFIGS.mobile : CONFIGS.desktop;
+  }
+
+  function buildPath(W: number, H: number) {
+    const { shapeRadius: r, tabWidth: tabW, tabDepth: tabH, flare, topCurve, bottomCurve, paddingTop: pt, paddingLeft: pl, paddingRight: pr } = getConfig();
+
+    const x0    = pl;
+    const y0    = pt;
+    const iW    = W - pl - pr;
+    const bodyH = H - pt - tabH;
+    const cx    = W / 2;
+    const tLeft  = cx - tabW / 2;
+    const tRight = cx + tabW / 2;
+
+    const outer = `M 0 0 H ${W} V ${H} H 0 Z`;
+
+    const inner = [
+      `M ${x0 + r} ${y0}`,
+      `H ${x0 + iW - r}`,
+      `A ${r} ${r} 0 0 1 ${x0 + iW} ${y0 + r}`,
+      `V ${bodyH - r}`,
+      `A ${r} ${r} 0 0 1 ${x0 + iW - r} ${bodyH}`,
+      `H ${tRight + flare}`,
+      `C ${tRight + flare - topCurve} ${bodyH}, ${cx + bottomCurve} ${bodyH + tabH}, ${cx} ${bodyH + tabH}`,
+      `C ${cx - bottomCurve} ${bodyH + tabH}, ${tLeft - flare + topCurve} ${bodyH}, ${tLeft - flare} ${bodyH}`,
+      `H ${x0 + r}`,
+      `A ${r} ${r} 0 0 1 ${x0} ${bodyH - r}`,
+      `V ${y0 + r}`,
+      `A ${r} ${r} 0 0 1 ${x0 + r} ${y0} Z`
+    ].join(' ');
+
+    return `${outer} ${inner}`;
+  }
+
+  function redraw() {
+    const W = container.offsetWidth;
+    const H = container.offsetHeight;
+    frameSvg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    framePath.setAttribute('fill', getConfig().frameColor);
+    framePath.setAttribute('d', buildPath(W, H));
+  }
+
+  new ResizeObserver(redraw).observe(container);
+  redraw();
+</script>

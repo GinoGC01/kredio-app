@@ -1,21 +1,51 @@
----
----
-
-<header class="fixed top-0 left-0 right-0 z-50 bg-transparent">
-  <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-    <a href="/" class="text-white font-bold text-xl tracking-tight">kredio</a>
+<header id="siteHeader" class="fixed top-[20px] left-0 right-0 z-50 transition-all duration-500 px-4 md:px-6">
+  <nav id="siteNav" class="max-w-7xl mx-auto px-4 md:px-6 h-14 md:h-16 flex items-center justify-between rounded-full transition-all duration-500">
+    
+    <a href="/" id="siteLogo" class="font-bold text-xl tracking-tight text-white transition-colors duration-500">kredio</a>
 
     <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
-      <li><a href="#features" class="text-white/60 hover:text-white transition-colors">Features</a></li>
-      <li><a href="#pricing"  class="text-white/60 hover:text-white transition-colors">Pricing</a></li>
-      <li><a href="#about"    class="text-white/60 hover:text-white transition-colors">About Us</a></li>
-      <li><a href="#faq"      class="text-white/60 hover:text-white transition-colors">Faq</a></li>
+      <li><a href="#features" class="nav-link text-white/60 hover:text-white transition-colors duration-500">Features</a></li>
+      <li><a href="#pricing"  class="nav-link text-white/60 hover:text-white transition-colors duration-500">Pricing</a></li>
+      <li><a href="#about"    class="nav-link text-white/60 hover:text-white transition-colors duration-500">About Us</a></li>
+      <li><a href="#faq"      class="nav-link text-white/60 hover:text-white transition-colors duration-500">Faq</a></li>
     </ul>
 
-    <a href="#"
-       class="bg-white/10 border border-white/20 text-white text-sm font-medium
-              px-5 py-2 rounded-full hover:bg-white/20 transition-colors">
+    <a href="#" id="siteCta"
+       class="text-white text-sm font-medium px-5 py-2 rounded-full transition-all duration-500"
+       style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">
       Get Started
     </a>
   </nav>
 </header>
+
+<script>
+  const nav    = document.getElementById('siteNav')    as HTMLElement;
+  const logo   = document.getElementById('siteLogo')   as HTMLElement;
+  const cta    = document.getElementById('siteCta')    as HTMLElement;
+  const links  = document.querySelectorAll('.nav-link') as NodeListOf<HTMLElement>;
+
+  function onScroll() {
+    const scrolled = window.scrollY > 10;
+
+    // glass
+    nav.style.background          = scrolled ? 'rgba(255, 255, 255, 0.45)' : 'transparent';
+    nav.style.backdropFilter      = scrolled ? 'blur(16px)'                 : 'none';
+    (nav.style as any).webkitBackdropFilter = scrolled ? 'blur(16px)'       : 'none';
+    nav.style.border              = scrolled ? '1px solid rgba(255,255,255,0.25)' : 'none';
+    nav.style.boxShadow           = scrolled ? '0 4px 32px rgba(0,0,0,0.06)'     : 'none';
+
+    // logo
+    logo.style.color = scrolled ? '#056ffd' : '#fff';
+
+    // links
+    links.forEach(l => l.style.color = scrolled ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.6)');
+
+    // cta
+    cta.style.background   = scrolled ? '#056ffd'                    : 'rgba(255,255,255,0.1)';
+    cta.style.borderColor  = scrolled ? '#056ffd'                    : 'rgba(255,255,255,0.2)';
+    cta.style.color        = '#fff';
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
